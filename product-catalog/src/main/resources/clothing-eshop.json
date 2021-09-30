@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "clothing-eshop-4e931",
+  "private_key_id": "3069b8345caac7dc0da6edf8c1c58562d3cccc0a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDJOGTqI8sbuB25\nat5t+BDX7JNAJQgLn0jVV4UCQABFnRO7RgIwkl7E/X49DuzBrKZHzNvwKslYt79C\nj7Jr9NEJ7QZ3LE6cM7F3x3FriW8yj9YdOA+2Yotk4knU3lE8T7hkHhorWcM89bDx\n8wjA6K4prlvs3VESZ4cTYlEI1ZwAYwetjslE42MKkrO79ja6y6QUMS27BmeC+UDg\nAXRsxr6CThaGpJZWgAXGwvdE7f2lQ6pqYcCZO2AZ7PK9/6o6pRNFLHeo5mF/PMpP\n5XYxGvW3Xc/PbKO4Oh8jh87YLLnbELFNogJcuCoGAlUQunCwqYpkyD5vvlz6PAWz\n1k4Bc33FAgMBAAECggEAFW25R3sA2AabOcIBBoaGqqwBwXDAIta3b6rWmhb9QGya\nK5UoygnoaEOTpEZ43aY4fgh5uqGf2CAXUOwTJO6JLWytxda012sk4NvfPwO/kQui\n0nFEMRjc/eUgVjhHv+vAd/8Bq/Cu+0ix645Fdh/BXmR4Wyj1h4d5ac3MUevHpX21\n1vC2wES0BR/QZFJUfZqTTOifNXn2jjej4+rzkn19G3AYa3aABWsdOtE9r6dXkHyV\nGuC/cWBvoPtLAJ51R9LwMmG4kdkEqzAwn9CLLQc/8QH+ShYY/LAwL7ahLw0e3HcL\nfl13xqQ7YUoOD7O4NYTHwsDjRK9riRskQ8+k/jpWSQKBgQD1v+lxHrH7PtswVtGw\nYQBrowlzKSg/0WAS930ms2ijKRkw+gN5STwpI/eYc5wU6cTXHMH3wSxngfO6qJlA\ncyWkfqaLd80Jeu2j1RpeYJErLCFPyYgwOucMaqcJpBS7R5Lh2yj1VcP8c/NvZ3Gx\ntRS7wqIpiJx8j7uzGZPhpfx4uQKBgQDRnQCpZ9MbyE/KVFzO6BLg8Sv6uEP/EFhe\n5tN/FqunfzMo2vQfC3HHrPvAWqPopaDvQUSyKXJwM5UxX9Wvp2BTwgrAn1aGlXnh\nYhxP+nwXnigRSF7CKHMJCs9VKp58RqGxuKAEtLd0Be7mLwcu+hPpeQ1nfqayUTjd\ngxcQuctPbQKBgEhg23pLlhPvcVMNXvjZuOv6ur/GMWqKWgd8CMorMPhNFHROTlOc\ndDGRvEyUUDYAm87XU3GK3W8m4QfqvCg1QbLu8lJFWIggQnlsPDXrrxXOC4maS5gY\n4Q/RIZ0/TDPUYrhOegO33N8vr1TyXJQARzj9nBErgRtWoeuf7uQYpQFRAoGBAMeM\nRbMASjMqsPsW8PtwZ3iJX6rhfKn3L4m5CSL1vBhKubNtLfXX+Utz3H60S1IRS3I5\nmmJZnr49/QvyBgWgu81A7ueNSNv6tPrhYb6p4TTCtbYuRTdlNo4nIlYbqqD4xLnh\n30RbnkHv3Ax6PMZ2ADrFqQMbySn8tLv8LhsYJPrJAoGAWuSL5mXlJjXSP69XBcZo\nmy0czRuLSNg6//5M+7fpIx5w0q7y3hVMKo2Nl8bwdzrjEC28i47zfKdIerLGJ1cr\nNXJz2GDdS+6OFWXkSRnaVBqIJTds1guly5X1+kBQewg2iKuNPOckDSSZGsPAJIh8\n9opgmqZ6Jdzg4hddrUb//FM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-laxp2@clothing-eshop-4e931.iam.gserviceaccount.com",
+  "client_id": "110134298561368779812",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-laxp2%40clothing-eshop-4e931.iam.gserviceaccount.com"
+}
