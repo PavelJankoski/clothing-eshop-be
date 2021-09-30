@@ -11,6 +11,7 @@ import mk.ukim.finki.productcatalog.service.ImageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
@@ -29,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category insert(CreateCategoryDto dto) {
+    public Category insert(CreateCategoryDto dto) throws IOException {
         Image img = this.imageService.upload(dto.getImage());
         Category c = new Category(CategoryType.MEN, dto.getName(), img);
         c.setCreatedOn(LocalDateTime.now());

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping(value = "/api/categories")
 @CrossOrigin(value = "*")
@@ -19,7 +21,7 @@ public class CategoryController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Category> createCategory(@RequestPart String typeId, @RequestPart String name, @RequestPart MultipartFile image) {
+    public ResponseEntity<Category> createCategory(@RequestPart String typeId, @RequestPart String name, @RequestPart MultipartFile image) throws IOException {
         CreateCategoryDto dto = new CreateCategoryDto(Integer.parseInt(typeId), name, image);
         return ResponseEntity.ok(this.categoryService.insert(dto));
     }

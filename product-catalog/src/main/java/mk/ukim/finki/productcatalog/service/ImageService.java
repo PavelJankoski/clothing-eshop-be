@@ -7,9 +7,8 @@ import java.io.File;
 import java.io.IOException;
 
 public interface ImageService {
-    Image insert(MultipartFile image);
     File convertToFile(MultipartFile multipartFile, String fileName) throws IOException;
     String uploadFile(File file, String fileName) throws IOException;
     String getExtension(String fileName);
-    Image upload(MultipartFile multipartFile);
+    Image upload(MultipartFile multipartFile) throws IOException;
 }
