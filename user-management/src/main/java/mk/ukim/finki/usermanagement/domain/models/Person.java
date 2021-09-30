@@ -52,12 +52,17 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "address_id"))
     private List<Address> addresses;
 
-    public Person(FullName fullName, String email, String password, Role role) {
+    @OneToOne
+    @JoinColumn(name = "details_id", referencedColumnName = "id")
+    private Image image;
+
+    public Person(FullName fullName, String email, String password, Role role, Image image) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.role = role;
         this.addresses = new ArrayList<>();
         this.payments = new ArrayList<>();
+        this.image = image;
     }
 }
