@@ -24,6 +24,7 @@ public class Review {
 
     private LocalDateTime reviewedOn;
 
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
     private LocalDateTime modifiedOn;

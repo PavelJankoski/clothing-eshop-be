@@ -35,6 +35,7 @@ public class Product {
     @Column(name = "code", unique = true)
     private String code;
 
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
     private LocalDateTime modifiedOn;

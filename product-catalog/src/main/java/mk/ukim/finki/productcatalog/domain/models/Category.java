@@ -32,6 +32,7 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
     private LocalDateTime modifiedOn;

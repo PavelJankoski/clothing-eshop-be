@@ -1,28 +1,30 @@
-package mk.ukim.finki.productcatalog.domain.models;
+package mk.ukim.finki.usermanagement.domain.models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "brand")
-public class Brand {
+@Table(name = "payment")
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "brand")
-    private List<Product> products;
+    private Integer number;
+
+    private LocalDate expiresOn;
+
+    private Integer cvvCode;
 
     @Column(nullable = false)
     private LocalDateTime createdOn;
@@ -32,8 +34,13 @@ public class Brand {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    public Brand(String name) {
+    @ManyToOne
+    private Person person;
+
+    public Payment(String name, Integer number, LocalDate expiresOn, Integer cvvCode) {
         this.name = name;
-        this.products = new ArrayList<>();
+        this.number = number;
+        this.expiresOn = expiresOn;
+        this.cvvCode = cvvCode;
     }
 }

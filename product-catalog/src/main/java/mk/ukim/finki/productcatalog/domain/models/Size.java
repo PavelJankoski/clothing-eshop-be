@@ -20,6 +20,7 @@ public class Size {
 
     private String size;
 
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
     private LocalDateTime modifiedOn;
