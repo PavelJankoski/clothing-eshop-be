@@ -53,7 +53,7 @@ public class Person {
     private List<Address> addresses;
 
     @OneToOne
-    @JoinColumn(name = "details_id", referencedColumnName = "id")
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
     public Person(FullName fullName, String email, String password, Role role, Image image) {
