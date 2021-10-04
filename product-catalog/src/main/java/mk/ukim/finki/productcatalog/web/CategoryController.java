@@ -21,8 +21,8 @@ public class CategoryController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Category> createCategory(@RequestPart String typeId, @RequestPart String name, @RequestPart MultipartFile image) throws IOException {
-        CreateCategoryDto dto = new CreateCategoryDto(Integer.parseInt(typeId), name, image);
+    public ResponseEntity<Category> createCategory(@RequestPart String type, @RequestPart String name, @RequestPart MultipartFile image) throws IOException {
+        CreateCategoryDto dto = new CreateCategoryDto(type, name, image);
         return ResponseEntity.ok(this.categoryService.insert(dto));
     }
 }

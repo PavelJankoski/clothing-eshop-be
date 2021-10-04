@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category insert(CreateCategoryDto dto) throws IOException {
         Image img = this.imageService.upload(dto.getImage());
-        Category c = new Category(CategoryType.MEN, dto.getName(), img);
+        Category c = new Category(CategoryType.valueOf(dto.getType()), dto.getName(), img);
         c.setCreatedOn(LocalDateTime.now());
         return this.categoryRepository.save(c);
     }

@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCategoryDto {
-    private Integer typeId;
+    private String type;
     private String name;
     private MultipartFile image;
 }
