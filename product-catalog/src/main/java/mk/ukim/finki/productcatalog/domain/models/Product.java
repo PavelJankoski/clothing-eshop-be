@@ -27,10 +27,10 @@ public class Product {
     private Float price;
 
     @Formula("(select coalesce(avg(r.rating), 0) from ratings r where r.product_id=id)")
-    Float starRating;
+    private Float starRating;
 
     @Formula("(select coalesce(count(r.rating), 0) from ratings r where r.product_id=id)")
-    Integer numRatings;
+    private Integer numRatings;
 
     @Column(name = "code", unique = true)
     private String code;
