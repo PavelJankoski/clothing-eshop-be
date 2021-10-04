@@ -65,6 +65,7 @@ public class ImageServiceImpl implements ImageService {
         fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));
         File file = this.convertToFile(multipartFile, fileName);
         String url = this.uploadFile(file, fileName);
+        file.delete();
         Image i = new Image(url);
         i.setCreatedOn(LocalDateTime.now());
         return this.imageRepository.save(i);
