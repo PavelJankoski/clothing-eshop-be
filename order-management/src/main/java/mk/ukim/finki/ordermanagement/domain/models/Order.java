@@ -31,6 +31,7 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -43,6 +44,8 @@ public class Order {
     public Order(Long userId) {
         this.userId = userId;
         this.status = OrderStatus.PENDING;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
         this.orderItems = new ArrayList<>();
     }
 }

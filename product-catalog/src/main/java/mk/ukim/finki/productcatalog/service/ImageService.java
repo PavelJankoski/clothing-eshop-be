@@ -10,5 +10,5 @@ public interface ImageService {
     File convertToFile(MultipartFile multipartFile, String fileName) throws IOException;
     String uploadFile(File file, String fileName) throws IOException;
     String getExtension(String fileName);
-    Image upload(MultipartFile multipartFile) throws IOException;
+    String upload(MultipartFile multipartFile) throws IOException;
 }

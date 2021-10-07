@@ -28,6 +28,7 @@ public class Role {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -35,5 +36,7 @@ public class Role {
 
     public Role(RoleType type) {
         this.type = type;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

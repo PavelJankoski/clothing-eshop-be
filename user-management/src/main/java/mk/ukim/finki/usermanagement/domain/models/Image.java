@@ -23,6 +23,7 @@ public class Image {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -30,5 +31,7 @@ public class Image {
 
     public Image(String url) {
         this.url = url;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

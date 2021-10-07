@@ -31,9 +31,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category insert(CreateCategoryDto dto) throws IOException {
-        Image img = this.imageService.upload(dto.getImage());
-        Category c = new Category(CategoryType.valueOf(dto.getType()), dto.getName(), img);
-        c.setCreatedOn(LocalDateTime.now());
+        String imgUrl = this.imageService.upload(dto.getImage());
+        Category c = new Category(CategoryType.valueOf(dto.getType()), dto.getName(), imgUrl);
         return this.categoryRepository.save(c);
     }
 }

@@ -24,7 +24,6 @@ public class ProductServiceImpl implements ProductService {
     public Product insert(CreateProductDto dto) {
         Category category = this.categoryService.findById(dto.getCategoryId());
         Product product = new Product(dto.getName(), dto.getDescription(), dto.getPrice(), dto.getCode(), dto.getBrand(), category);
-        product.setCreatedOn(LocalDateTime.now());
         return this.productRepository.save(product);
     }
 }

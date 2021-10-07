@@ -16,6 +16,7 @@
         <module>order-management</module>
         <module>product-catalog</module>
         <module>shared-kernel</module>
+        <module>eureka-service</module>
     </modules>
 
 </project>

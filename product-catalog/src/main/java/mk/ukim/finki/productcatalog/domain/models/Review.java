@@ -27,6 +27,7 @@ public class Review {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -44,5 +45,7 @@ public class Review {
         this.userId = userId;
         this.product = product;
         this.reviewedOn = LocalDateTime.now();
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

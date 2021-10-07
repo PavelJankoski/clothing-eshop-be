@@ -60,15 +60,13 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image upload(MultipartFile multipartFile) throws IOException {
+    public String upload(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
         fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));
         File file = this.convertToFile(multipartFile, fileName);
         String url = this.uploadFile(file, fileName);
         file.delete();
-        Image i = new Image(url);
-        i.setCreatedOn(LocalDateTime.now());
-        return this.imageRepository.save(i);
+        return url;
 
     }
 }

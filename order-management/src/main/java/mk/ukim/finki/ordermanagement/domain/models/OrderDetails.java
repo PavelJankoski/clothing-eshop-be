@@ -30,6 +30,7 @@ public class OrderDetails {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -39,5 +40,7 @@ public class OrderDetails {
         this.paymentType = paymentType;
         this.address = address;
         this.totalAmount = totalAmount;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

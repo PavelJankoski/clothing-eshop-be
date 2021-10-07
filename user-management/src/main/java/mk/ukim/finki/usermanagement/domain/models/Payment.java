@@ -29,6 +29,7 @@ public class Payment {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -42,5 +43,7 @@ public class Payment {
         this.number = number;
         this.expiresOn = expiresOn;
         this.cvvCode = cvvCode;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

@@ -19,11 +19,14 @@ public class OrderItem {
 
     private Long productId;
 
+    private String size;
+
     private Integer quantity;
 
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -35,5 +38,7 @@ public class OrderItem {
     public OrderItem(Long productId, Integer quantity) {
         this.productId = productId;
         this.quantity = quantity;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

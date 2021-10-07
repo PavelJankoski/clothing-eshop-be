@@ -23,6 +23,7 @@ public class Size {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -30,5 +31,7 @@ public class Size {
 
     public Size(String size) {
         this.size = size;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

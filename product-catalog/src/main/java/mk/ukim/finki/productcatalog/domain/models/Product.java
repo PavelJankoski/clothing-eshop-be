@@ -38,6 +38,7 @@ public class Product {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -69,6 +70,8 @@ public class Product {
         this.code = code;
         this.brand = brand;
         this.category = category;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
         this.sizes = new ArrayList<>();
         this.reviews = new ArrayList<>();
     }

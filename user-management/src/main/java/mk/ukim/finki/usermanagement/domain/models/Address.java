@@ -30,6 +30,7 @@ public class Address {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -41,5 +42,7 @@ public class Address {
         this.city = city;
         this.country = country;
         this.postalCode = postalCode;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

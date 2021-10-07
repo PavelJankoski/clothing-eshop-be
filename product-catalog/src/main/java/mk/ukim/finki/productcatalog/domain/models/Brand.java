@@ -27,6 +27,7 @@ public class Brand {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -34,6 +35,8 @@ public class Brand {
 
     public Brand(String name) {
         this.name = name;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
         this.products = new ArrayList<>();
     }
 }

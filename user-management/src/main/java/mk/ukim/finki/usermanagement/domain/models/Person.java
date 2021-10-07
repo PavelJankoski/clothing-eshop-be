@@ -37,6 +37,7 @@ public class Person {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
@@ -64,5 +65,7 @@ public class Person {
         this.addresses = new ArrayList<>();
         this.payments = new ArrayList<>();
         this.image = image;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
     }
 }

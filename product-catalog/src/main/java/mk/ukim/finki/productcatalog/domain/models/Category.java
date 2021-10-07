@@ -25,9 +25,8 @@ public class Category {
 
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image image;
+
+    private String imageUrl;
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
@@ -35,15 +34,18 @@ public class Category {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(nullable = false)
     private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    public Category(CategoryType type, String name, Image image) {
+    public Category(CategoryType type, String name, String imageUrl) {
         this.type = type;
         this.name = name;
-        this.image = image;
+        this.imageUrl = imageUrl;
+        this.createdOn = LocalDateTime.now();
+        this.modifiedOn = LocalDateTime.now();
         this.products = new ArrayList<>();
     }
 }
