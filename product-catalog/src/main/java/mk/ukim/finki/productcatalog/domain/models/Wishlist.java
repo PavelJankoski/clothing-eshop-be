@@ -1,30 +1,23 @@
 package mk.ukim.finki.productcatalog.domain.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "brand")
-public class Brand {
+@Table(name = "wishlist")
+public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    @OneToMany(mappedBy = "brand")
-    @JsonIgnore
-    private List<Product> products;
+    private Long userId;
 
     @Column(nullable = false)
     private LocalDateTime createdOn;
@@ -35,10 +28,9 @@ public class Brand {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    public Brand(String name) {
-        this.name = name;
+    public Wishlist(Long userId) {
+        this.userId = userId;
         this.createdOn = LocalDateTime.now();
         this.modifiedOn = LocalDateTime.now();
-        this.products = new ArrayList<>();
     }
 }

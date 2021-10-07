@@ -16,6 +16,6 @@ public class CreateProductDto implements Serializable {
     private String description;
     private Float price;
     private String code;
-    private Brand brand;
+    private Long brandId;
     private Long categoryId;
 }

@@ -26,10 +26,10 @@ public class Product {
 
     private Float price;
 
-    @Formula("(select coalesce(avg(r.rating), 0) from ratings r where r.product_id=id)")
+    @Formula("(select coalesce(avg(r.rating), 0) from review r where r.product_id=id)")
     private Float starRating;
 
-    @Formula("(select coalesce(count(r.rating), 0) from ratings r where r.product_id=id)")
+    @Formula("(select coalesce(count(r.rating), 0) from review r where r.product_id=id)")
     private Integer numRatings;
 
     @Column(name = "code", unique = true)
@@ -50,11 +50,7 @@ public class Product {
     @ManyToOne
     private Category category;
 
-    @ManyToMany(targetEntity = Size.class)
-    @JoinTable(
-            name = "product_size",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "size_id"))
+    @ManyToMany()
     private List<Size> sizes;
 
     @OneToMany(mappedBy = "product")
@@ -62,6 +58,13 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Image> images;
+
+    @ManyToMany(targetEntity = Wishlist.class)
+    @JoinTable(
+            name = "product_wishlist",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "wishlist_id"))
+    private List<Wishlist> wishlists;
 
     public Product(String name, String description, Float price, String code, Brand brand, Category category) {
         this.name = name;
@@ -74,5 +77,6 @@ public class Product {
         this.modifiedOn = LocalDateTime.now();
         this.sizes = new ArrayList<>();
         this.reviews = new ArrayList<>();
+        this.wishlists = new ArrayList<>();
     }
 }
