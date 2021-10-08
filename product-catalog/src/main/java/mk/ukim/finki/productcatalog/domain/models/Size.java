@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mk.ukim.finki.productcatalog.domain.enums.SizeType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +22,9 @@ public class Size {
     private Long id;
 
     private String size;
+
+    @Enumerated(EnumType.STRING)
+    private SizeType type;
 
     @Column(nullable = false)
     private LocalDateTime createdOn;

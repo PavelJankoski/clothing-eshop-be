@@ -6,6 +6,7 @@ import mk.ukim.finki.productcatalog.domain.models.Image;
 import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.productcatalog.repository.ProductRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,9 +14,11 @@ import java.util.stream.Collectors;
 @Component
 public class ProductToGetProductDtoMapper {
     private final ProductRepository productRepository;
+    private final RestTemplate restTemplate;
 
-    public ProductToGetProductDtoMapper(ProductRepository productRepository) {
+    public ProductToGetProductDtoMapper(ProductRepository productRepository, RestTemplate restTemplate) {
         this.productRepository = productRepository;
+        this.restTemplate = restTemplate;
     }
 
     private GetProductDto toGetProductDto(Product product, Long userId) {
@@ -26,6 +29,7 @@ public class ProductToGetProductDtoMapper {
         }
         else {
             dto.setIsInWishlist(this.productRepository.isProductInWishlist(userId, product.getId()));
+            dto.setIsInShoppingCart(this.restTemplate.getForObject(String.format("http://ORDER-MANAGEMENT/api/orders/existsInShoppingCart/%s/%s", userId, product.getId()), Boolean.class));
         }
         List<GetSizeDto> sizes = product.getSizes().stream().map(s -> new GetSizeDto(s.getId(), s.getSize())).collect(Collectors.toList());
         List<String> images = product.getImages().stream().map(Image::getUrl).collect(Collectors.toList());

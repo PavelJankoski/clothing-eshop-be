@@ -34,8 +34,9 @@ public class Image {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    public Image(String url) {
+    public Image(String url, Product product) {
         this.url = url;
+        this.product = product;
         this.createdOn = LocalDateTime.now();
         this.modifiedOn = LocalDateTime.now();
     }

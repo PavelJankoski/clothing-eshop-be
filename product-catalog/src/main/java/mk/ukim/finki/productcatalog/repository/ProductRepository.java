@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByIsDeletedFalseAndCategoryId(Long categoryId);
+
+    Optional<Product> findProductByIdAndIsDeletedFalse(Long id);
 
     @Query(value = QueryConstants.isProductInWishlist, nativeQuery = true)
     Boolean isProductInWishlist(Long userId, Long productId);

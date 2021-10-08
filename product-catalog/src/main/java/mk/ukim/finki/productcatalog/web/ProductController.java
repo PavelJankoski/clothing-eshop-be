@@ -4,9 +4,12 @@ import mk.ukim.finki.productcatalog.domain.dtos.request.CreateProductDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
 import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.productcatalog.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,5 +30,11 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductDto dto) {
         return ResponseEntity.ok(this.productService.insert(dto));
+    }
+
+    @PutMapping(value = "/{productId}/uploadImages")
+    public HttpStatus uploadImagesForProduct(@PathVariable Long productId, @RequestParam MultipartFile[] images) throws IOException {
+        this.productService.uploadImagesForProduct(images, productId);
+        return HttpStatus.OK;
     }
 }

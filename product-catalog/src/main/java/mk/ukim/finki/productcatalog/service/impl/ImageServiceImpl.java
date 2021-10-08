@@ -7,6 +7,7 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import mk.ukim.finki.productcatalog.domain.models.Image;
+import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.productcatalog.repository.ImageRepository;
 import mk.ukim.finki.productcatalog.service.ImageService;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -35,8 +35,7 @@ public class ImageServiceImpl implements ImageService {
         this.imageRepository = imageRepository;
     }
 
-    @Override
-    public File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
+    private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
         File tempFile = new File(fileName);
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
             fos.write(multipartFile.getBytes());
@@ -44,8 +43,7 @@ public class ImageServiceImpl implements ImageService {
         return tempFile;
     }
 
-    @Override
-    public String uploadFile(File file, String fileName) throws IOException {
+    private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of(firebaseBucket, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream(new ClassPathResource("clothing-eshop.json").getFile()));
@@ -54,19 +52,24 @@ public class ImageServiceImpl implements ImageService {
         return String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", firebaseBucket, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 
-    @Override
-    public String getExtension(String fileName) {
+    private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf("."));
     }
 
     @Override
-    public String upload(MultipartFile multipartFile) throws IOException {
+    public String uploadForUrl(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
         fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));
         File file = this.convertToFile(multipartFile, fileName);
         String url = this.uploadFile(file, fileName);
         file.delete();
         return url;
-
     }
+
+    @Override
+    public void uploadForImage(MultipartFile image, Product product) throws IOException {
+        String url = this.uploadForUrl(image);
+        this.imageRepository.save(new Image(url, product));
+    }
+
 }

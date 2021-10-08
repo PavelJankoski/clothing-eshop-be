@@ -4,15 +4,12 @@ import mk.ukim.finki.productcatalog.domain.dtos.request.CreateCategoryDto;
 import mk.ukim.finki.productcatalog.domain.enums.CategoryType;
 import mk.ukim.finki.productcatalog.domain.exceptions.CategoryNotFoundException;
 import mk.ukim.finki.productcatalog.domain.models.Category;
-import mk.ukim.finki.productcatalog.domain.models.Image;
 import mk.ukim.finki.productcatalog.repository.CategoryRepository;
 import mk.ukim.finki.productcatalog.service.CategoryService;
 import mk.ukim.finki.productcatalog.service.ImageService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -31,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category insert(CreateCategoryDto dto) throws IOException {
-        String imgUrl = this.imageService.upload(dto.getImage());
+        String imgUrl = this.imageService.uploadForUrl(dto.getImage());
         Category c = new Category(CategoryType.valueOf(dto.getType()), dto.getName(), imgUrl);
         return this.categoryRepository.save(c);
     }
