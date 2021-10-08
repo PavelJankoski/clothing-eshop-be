@@ -29,7 +29,7 @@ public class ProductToGetProductDtoMapper {
         }
         else {
             dto.setIsInWishlist(this.productRepository.isProductInWishlist(userId, product.getId()));
-            dto.setIsInShoppingCart(this.restTemplate.getForObject(String.format("http://ORDER-MANAGEMENT/api/orders/existsInShoppingCart/%s/%s", userId, product.getId()), Boolean.class));
+            dto.setIsInShoppingCart(this.restTemplate.getForObject(String.format("http://ORDER-MANAGEMENT/orders/existsInShoppingCart/%s/%s", userId, product.getId()), Boolean.class));
         }
         List<GetSizeDto> sizes = product.getSizes().stream().map(s -> new GetSizeDto(s.getId(), s.getSize())).collect(Collectors.toList());
         List<String> images = product.getImages().stream().map(Image::getUrl).collect(Collectors.toList());

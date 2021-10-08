@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/brands")
+@RequestMapping(value = "/brands")
 public class BrandController {
     private final BrandService brandService;
 

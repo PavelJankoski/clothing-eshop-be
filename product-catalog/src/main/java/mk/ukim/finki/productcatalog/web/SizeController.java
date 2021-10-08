@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/sizes")
+@RequestMapping(value = "/sizes")
 public class SizeController {
     private final SizeService sizeService;
 
