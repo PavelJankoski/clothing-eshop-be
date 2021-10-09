@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "brand")
-public class Brand {
+public class Brand extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,19 +27,11 @@ public class Brand {
     @JsonIgnore
     private List<Product> products;
 
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
     public Brand(String name) {
         this.name = name;
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
         this.products = new ArrayList<>();
     }
 }

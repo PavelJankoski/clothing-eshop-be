@@ -3,6 +3,7 @@ package mk.ukim.finki.ordermanagement.domain.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Table(name = "order_item")
-public class OrderItem {
+public class OrderItem extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,12 +24,6 @@ public class OrderItem {
 
     private Integer quantity;
 
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
@@ -38,7 +33,5 @@ public class OrderItem {
     public OrderItem(Long productId, Integer quantity) {
         this.productId = productId;
         this.quantity = quantity;
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
     }
 }

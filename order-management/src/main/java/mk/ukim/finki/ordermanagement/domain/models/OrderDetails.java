@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.ordermanagement.domain.enums.PaymentType;
 import mk.ukim.finki.ordermanagement.domain.valueobjects.Address;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Table(name = "order_details")
-public class OrderDetails {
+public class OrderDetails extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,12 +28,6 @@ public class OrderDetails {
 
     private Float totalAmount;
 
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
@@ -40,7 +35,5 @@ public class OrderDetails {
         this.paymentType = paymentType;
         this.address = address;
         this.totalAmount = totalAmount;
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
     }
 }

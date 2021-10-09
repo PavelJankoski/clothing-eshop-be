@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.productcatalog.domain.enums.CategoryType;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "category")
-public class Category {
+public class Category extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,12 +32,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
@@ -44,8 +39,6 @@ public class Category {
         this.type = type;
         this.name = name;
         this.imageUrl = imageUrl;
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
         this.products = new ArrayList<>();
     }
 }

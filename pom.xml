@@ -17,7 +17,6 @@
         <module>product-catalog</module>
         <module>shared-kernel</module>
         <module>eureka-service</module>
-        <module>gateway-service</module>
     </modules>
 
 </project>

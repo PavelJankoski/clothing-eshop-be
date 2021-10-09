@@ -9,6 +9,8 @@ import java.util.List;
 public interface BrandService {
     Brand insert(CreateBrandDto dto);
 
+    Brand edit(Long id);
+
     Brand findBrandById(Long brandId);
 
     List<GetBrandDto> findAllBrands();

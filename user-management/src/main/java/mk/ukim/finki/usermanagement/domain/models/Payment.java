@@ -1,8 +1,10 @@
 package mk.ukim.finki.usermanagement.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Table(name = "payment")
-public class Payment {
+public class Payment extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,16 +28,11 @@ public class Payment {
 
     private Integer cvvCode;
 
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
     @ManyToOne
+    @JsonIgnore
     private Person person;
 
     public Payment(String name, Integer number, LocalDate expiresOn, Integer cvvCode) {
@@ -43,7 +40,5 @@ public class Payment {
         this.number = number;
         this.expiresOn = expiresOn;
         this.cvvCode = cvvCode;
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
     }
 }

@@ -27,6 +27,13 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public Brand edit(Long id) {
+        Brand brand = findBrandById(id);
+        brand.setName("Test");
+        return this.brandRepository.save(brand);
+    }
+
+    @Override
     public Brand findBrandById(Long brandId) {
         return this.brandRepository.findById(brandId).orElseThrow(() -> new BrandNotFoundException(brandId.toString()));
     }

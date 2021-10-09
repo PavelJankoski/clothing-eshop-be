@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.productcatalog.domain.enums.SizeType;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "size")
-public class Size {
+public class Size extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,12 +26,6 @@ public class Size {
 
     @Enumerated(EnumType.STRING)
     private SizeType type;
-
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
@@ -42,7 +37,5 @@ public class Size {
     public Size(String size) {
         this.size = size;
         this.products = new ArrayList<>();
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
     }
 }

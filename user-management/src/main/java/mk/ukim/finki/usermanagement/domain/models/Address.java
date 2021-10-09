@@ -3,6 +3,7 @@ package mk.ukim.finki.usermanagement.domain.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Table(name = "address")
-public class Address {
+public class Address extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,12 +28,6 @@ public class Address {
 
     private Integer postalCode;
 
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
@@ -42,7 +37,5 @@ public class Address {
         this.city = city;
         this.country = country;
         this.postalCode = postalCode;
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
     }
 }

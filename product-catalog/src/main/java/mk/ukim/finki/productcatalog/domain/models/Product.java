@@ -3,6 +3,7 @@ package mk.ukim.finki.productcatalog.domain.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "product")
-public class Product {
+public class Product extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,12 +35,6 @@ public class Product {
 
     @Column(name = "code", unique = true)
     private String code;
-
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
@@ -73,8 +68,6 @@ public class Product {
         this.code = code;
         this.brand = brand;
         this.category = category;
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
         this.sizes = new ArrayList<>();
         this.reviews = new ArrayList<>();
         this.wishlists = new ArrayList<>();

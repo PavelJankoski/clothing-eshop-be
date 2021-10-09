@@ -3,6 +3,7 @@ package mk.ukim.finki.usermanagement.domain.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 import mk.ukim.finki.usermanagement.domain.valueobjects.FullName;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "person")
-public class Person {
+public class Person extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,12 +35,6 @@ public class Person {
     @ManyToOne
     private Role role;
 
-    @Column(nullable = false)
-    private LocalDateTime createdOn;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedOn;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
@@ -57,7 +52,7 @@ public class Person {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
-    public Person(FullName fullName, String email, String password, Role role, Image image) {
+    public Person(FullName fullName, String email, String password, String phoneNumber, Role role, Image image) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
@@ -65,7 +60,6 @@ public class Person {
         this.addresses = new ArrayList<>();
         this.payments = new ArrayList<>();
         this.image = image;
-        this.createdOn = LocalDateTime.now();
-        this.modifiedOn = LocalDateTime.now();
+        this.phoneNumber=phoneNumber;
     }
 }
