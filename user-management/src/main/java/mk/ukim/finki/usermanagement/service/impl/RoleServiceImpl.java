@@ -17,7 +17,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findRoleByType(RoleType type) {
-        Role role = this.roleRepository.findRoleByType(type).orElseThrow(() -> new RoleNotFoundException(type.name()));
+        Role role = this.roleRepository.findRoleByTypeAndIsDeletedFalse(type).orElseThrow(() -> new RoleNotFoundException(type.name()));
         return role;
     }
 }

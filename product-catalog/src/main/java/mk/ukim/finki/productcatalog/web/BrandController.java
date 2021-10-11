@@ -1,6 +1,7 @@
 package mk.ukim.finki.productcatalog.web;
 
 import mk.ukim.finki.productcatalog.domain.dtos.request.CreateBrandDto;
+import mk.ukim.finki.productcatalog.domain.dtos.request.EditBrandDto;
 import mk.ukim.finki.productcatalog.domain.models.Brand;
 import mk.ukim.finki.productcatalog.service.BrandService;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class BrandController {
     }
 
     @PutMapping(value = "/{brandId}")
-    public ResponseEntity<Brand> editBrand(@PathVariable Long brandId) {
-        return ResponseEntity.ok(this.brandService.edit(brandId));
+    public ResponseEntity<Brand> editBrand(@PathVariable Long brandId, @RequestBody EditBrandDto dto) {
+        return ResponseEntity.ok(this.brandService.edit(brandId, dto));
     }
 }

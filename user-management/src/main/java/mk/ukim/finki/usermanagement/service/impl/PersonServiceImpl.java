@@ -5,7 +5,6 @@ import mk.ukim.finki.usermanagement.domain.dtos.request.RegisterDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.JwtDto;
 import mk.ukim.finki.usermanagement.domain.enums.RoleType;
 import mk.ukim.finki.usermanagement.domain.exceptions.PersonNotFoundException;
-import mk.ukim.finki.usermanagement.domain.exceptions.UserDeletedException;
 import mk.ukim.finki.usermanagement.domain.models.Person;
 import mk.ukim.finki.usermanagement.domain.models.Role;
 import mk.ukim.finki.usermanagement.domain.valueobjects.FullName;

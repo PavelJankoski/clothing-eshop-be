@@ -1,6 +1,7 @@
 package mk.ukim.finki.productcatalog.service.impl;
 
 import mk.ukim.finki.productcatalog.domain.dtos.request.CreateBrandDto;
+import mk.ukim.finki.productcatalog.domain.dtos.request.EditBrandDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetBrandDto;
 import mk.ukim.finki.productcatalog.domain.exceptions.BrandNotFoundException;
 import mk.ukim.finki.productcatalog.domain.mappers.BrandToGetBrandDtoMapper;
@@ -27,15 +28,15 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Brand edit(Long id) {
-        Brand brand = findBrandById(id);
-        brand.setName("Test");
+    public Brand edit(Long id, EditBrandDto dto) {
+        Brand brand = this.findBrandById(id);
+        brand.setName(dto.getName());
         return this.brandRepository.save(brand);
     }
 
     @Override
     public Brand findBrandById(Long brandId) {
-        return this.brandRepository.findById(brandId).orElseThrow(() -> new BrandNotFoundException(brandId.toString()));
+        return this.brandRepository.findBrandByIdAndIsDeletedFalse(brandId).orElseThrow(() -> new BrandNotFoundException(brandId.toString()));
     }
 
     @Override

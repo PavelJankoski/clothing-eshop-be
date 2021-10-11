@@ -1,5 +1,6 @@
 package mk.ukim.finki.productcatalog.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class Category extends BaseTimeAuditedEntity {
     private String imageUrl;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Product> products;
 
     @Column(name = "is_deleted")

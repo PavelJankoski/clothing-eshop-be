@@ -1,6 +1,7 @@
 package mk.ukim.finki.productcatalog.web;
 
 import mk.ukim.finki.productcatalog.domain.dtos.request.CreateCategoryDto;
+import mk.ukim.finki.productcatalog.domain.dtos.response.GetCategoryDto;
 import mk.ukim.finki.productcatalog.domain.models.Category;
 import mk.ukim.finki.productcatalog.service.CategoryService;
 import org.springframework.http.MediaType;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -18,6 +20,11 @@ public class CategoryController {
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GetCategoryDto>> getAllCategories() {
+        return ResponseEntity.ok(this.categoryService.findAllCategories());
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
