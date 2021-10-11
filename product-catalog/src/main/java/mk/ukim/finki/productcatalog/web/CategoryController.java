@@ -6,6 +6,7 @@ import mk.ukim.finki.productcatalog.domain.models.Category;
 import mk.ukim.finki.productcatalog.service.CategoryService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,7 @@ public class CategoryController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> createCategory(@RequestPart String type, @RequestPart String name, @RequestPart MultipartFile image) throws IOException {
         CreateCategoryDto dto = new CreateCategoryDto(type, name, image);
         return ResponseEntity.ok(this.categoryService.insert(dto));

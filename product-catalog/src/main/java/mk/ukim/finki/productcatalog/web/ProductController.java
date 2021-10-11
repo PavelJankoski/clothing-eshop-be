@@ -6,6 +6,7 @@ import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.productcatalog.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,11 +29,13 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductDto dto) {
         return ResponseEntity.ok(this.productService.insert(dto));
     }
 
     @PutMapping(value = "/{productId}/uploadImages")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public HttpStatus uploadImagesForProduct(@PathVariable Long productId, @RequestParam MultipartFile[] images) throws IOException {
         this.productService.uploadImagesForProduct(images, productId);
         return HttpStatus.OK;

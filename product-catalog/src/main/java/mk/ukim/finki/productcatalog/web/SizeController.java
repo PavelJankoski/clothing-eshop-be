@@ -4,6 +4,7 @@ import mk.ukim.finki.productcatalog.domain.dtos.request.CreateSizeDto;
 import mk.ukim.finki.productcatalog.domain.models.Size;
 import mk.ukim.finki.productcatalog.service.SizeService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class SizeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Size> createSize(@RequestBody CreateSizeDto dto) {
         return ResponseEntity.ok(this.sizeService.insert(dto));
     }
