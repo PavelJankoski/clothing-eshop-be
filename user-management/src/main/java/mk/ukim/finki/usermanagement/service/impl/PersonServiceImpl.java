@@ -9,7 +9,6 @@ import mk.ukim.finki.usermanagement.domain.models.Person;
 import mk.ukim.finki.usermanagement.domain.models.Role;
 import mk.ukim.finki.usermanagement.domain.valueobjects.FullName;
 import mk.ukim.finki.usermanagement.repository.PersonRepository;
-import mk.ukim.finki.usermanagement.security.jwt.JwtUtils;
 import mk.ukim.finki.usermanagement.security.services.UserDetailsImpl;
 import mk.ukim.finki.usermanagement.service.PersonService;
 import mk.ukim.finki.usermanagement.service.RoleService;
@@ -31,37 +30,19 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final RoleService roleService;
     private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
 
 
-    public PersonServiceImpl(PasswordEncoder passwordEncoder, PersonRepository personRepository, RoleService roleService, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public PersonServiceImpl(PasswordEncoder passwordEncoder, PersonRepository personRepository, RoleService roleService, AuthenticationManager authenticationManager) {
         this.passwordEncoder = passwordEncoder;
         this.personRepository = personRepository;
         this.roleService = roleService;
         this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
     }
 
     @Override
     public JwtDto login(LoginDto dto) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        JwtDto jwtDto = new JwtDto();
-        jwtDto.setAccessToken(jwt);
-        jwtDto.setEmail(dto.getEmail());
-        jwtDto.setFullName(userDetails.getFullName());
-        jwtDto.setUserId(userDetails.getUserId());
-        jwtDto.setRole(roles.get(0));
-
-        return jwtDto;
+        return null;
     }
 
     @Override
