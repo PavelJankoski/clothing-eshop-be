@@ -47,12 +47,6 @@ public class PersonServiceImpl implements PersonService {
     public JwtDto login(LoginDto dto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
 
-        Person person = this.findPersonByEmail(dto.getEmail());
-
-        if(person.getIsDeleted()) {
-            throw new UserDeletedException(person.getEmail());
-        }
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
@@ -63,7 +57,9 @@ public class PersonServiceImpl implements PersonService {
 
         JwtDto jwtDto = new JwtDto();
         jwtDto.setAccessToken(jwt);
-        jwtDto.setUsername(userDetails.getUsername());
+        jwtDto.setEmail(dto.getEmail());
+        jwtDto.setFullName(userDetails.getFullName());
+        jwtDto.setUserId(userDetails.getUserId());
         jwtDto.setRole(roles.get(0));
 
         return jwtDto;
@@ -80,6 +76,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person findPersonByEmail(String email) {
-        return this.personRepository.findPersonByEmail(email).orElseThrow(() -> new PersonNotFoundException(email));
+        return this.personRepository.findPersonByEmailAndIsDeletedFalse(email).orElseThrow(() -> new PersonNotFoundException(email));
     }
 }

@@ -15,7 +15,11 @@ public class JwtDto implements Serializable {
 
     private String tokenType = "Bearer";
 
-    private String username;
+    private String email;
+
+    private String fullName;
+
+    private Long userId;
 
     private String role;
 }

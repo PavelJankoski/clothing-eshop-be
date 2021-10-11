@@ -12,18 +12,26 @@ import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private String username;
+    private String email;
 
     @JsonIgnore
     private String password;
 
+    private String fullName;
+
+    private Long userId;
+
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String username,
+    public UserDetailsImpl(String email,
                            String password,
+                           String fullName,
+                           Long userId,
                            Collection<? extends GrantedAuthority> authorities){
-        this.username = username;
+        this.email = email;
         this.password = password;
+        this.fullName = fullName;
+        this.userId = userId;
         this.authorities = authorities;
     }
 
@@ -31,7 +39,7 @@ public class UserDetailsImpl implements UserDetails {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority(user.getRole().getType().name()));
 
-        return new UserDetailsImpl(user.getPassword(), user.getPassword(), authorityList);
+        return new UserDetailsImpl(user.getPassword(), user.getPassword(), user.getFullName(), user.getId(), authorityList);
     }
 
     @Override
@@ -46,7 +54,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
     @Override
@@ -67,5 +75,13 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getFullName() {
+        return this.fullName;
+    }
+
+    public Long getUserId() {
+        return this.userId;
     }
 }

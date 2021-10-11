@@ -52,6 +52,10 @@ public class Person extends BaseTimeAuditedEntity {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
+    public String getFullName() {
+        return this.fullName.getFirstName() + " " + this.fullName.getLastName();
+    }
+
     public Person(FullName fullName, String email, String password, String phoneNumber, Role role, Image image) {
         this.fullName = fullName;
         this.email = email;
