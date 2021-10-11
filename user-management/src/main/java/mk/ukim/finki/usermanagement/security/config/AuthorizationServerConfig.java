@@ -1,6 +1,8 @@
 package mk.ukim.finki.usermanagement.security.config;
 
 import mk.ukim.finki.usermanagement.security.services.ClientDetailsServiceImpl;
+import mk.ukim.finki.usermanagement.security.services.CustomTokenConverter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,10 +47,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
-        endpoints.authenticationManager(authenticationManager).userDetailsService(userDetailsService);
+        endpoints.tokenEnhancer(customTokenEnhancer())
+                .authenticationManager(authenticationManager)
+                .userDetailsService(userDetailsService);
 
     }
 
-
+    @Bean
+    public CustomTokenConverter customTokenEnhancer() {
+        return new CustomTokenConverter();
+    }
 
 }
