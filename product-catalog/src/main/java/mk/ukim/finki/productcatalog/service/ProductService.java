@@ -13,7 +13,7 @@ public interface ProductService {
 
     Product findProductById(Long id);
 
-    List<GetProductDto> findProductsByCategory(Long categoryId, Long userId);
+    List<GetProductDto> findProductsByCategory(Long categoryId, Long userId, String token);
 
     void uploadImagesForProduct(MultipartFile[] images, Long productId) throws IOException;
 }

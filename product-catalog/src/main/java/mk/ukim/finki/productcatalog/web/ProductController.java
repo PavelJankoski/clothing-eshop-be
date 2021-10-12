@@ -24,8 +24,8 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{categoryId}")
-    public ResponseEntity<List<GetProductDto>> getProductsForCategory(@PathVariable Long categoryId, @RequestParam(required = false, defaultValue = "0") String userId) {
-        return ResponseEntity.ok(this.productService.findProductsByCategory(categoryId, Long.parseLong(userId)));
+    public ResponseEntity<List<GetProductDto>> getProductsForCategory(@RequestHeader(name = "Authorization", required = false, defaultValue = "") String token, @PathVariable Long categoryId, @RequestParam(required = false, defaultValue = "0") String userId) {
+        return ResponseEntity.ok(this.productService.findProductsByCategory(categoryId, Long.parseLong(userId), token));
     }
 
     @PostMapping

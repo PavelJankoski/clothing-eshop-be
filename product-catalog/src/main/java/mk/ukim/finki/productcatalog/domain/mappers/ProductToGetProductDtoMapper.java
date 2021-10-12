@@ -5,9 +5,19 @@ import mk.ukim.finki.productcatalog.domain.dtos.response.GetSizeDto;
 import mk.ukim.finki.productcatalog.domain.models.Image;
 import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.productcatalog.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,15 +31,15 @@ public class ProductToGetProductDtoMapper {
         this.restTemplate = restTemplate;
     }
 
-    private GetProductDto toGetProductDto(Product product, Long userId) {
+    private GetProductDto toGetProductDto(Product product, Long userId, String token) {
         GetProductDto dto = new GetProductDto();
-        if(userId<1) {
+        if(userId<1 || token.trim().length()==0) {
             dto.setIsInWishlist(false);
             dto.setIsInShoppingCart(false);
         }
         else {
             dto.setIsInWishlist(this.productRepository.isProductInWishlist(userId, product.getId()));
-            dto.setIsInShoppingCart(this.restTemplate.getForObject(String.format("http://ORDER-MANAGEMENT/orders/existsInShoppingCart/%s/%s", userId, product.getId()), Boolean.class));
+            dto.setIsInShoppingCart(restTemplate.getForObject(String.format("http://order-management-service/orders/existsInShoppingCart/%s/%s", userId, product.getId()), Boolean.class));
         }
         List<GetSizeDto> sizes = product.getSizes().stream().map(s -> new GetSizeDto(s.getId(), s.getSize())).collect(Collectors.toList());
         List<String> images = product.getImages().stream().map(Image::getUrl).collect(Collectors.toList());
@@ -46,7 +56,8 @@ public class ProductToGetProductDtoMapper {
         return dto;
     }
 
-    public List<GetProductDto> toGetProductsList(List<Product> products, Long userId){
-        return products.stream().map(p -> this.toGetProductDto(p, userId)).collect(Collectors.toList());
+
+    public List<GetProductDto> toGetProductsList(List<Product> products, Long userId, String token){
+        return products.stream().map(p -> this.toGetProductDto(p, userId, token)).collect(Collectors.toList());
     }
 }

@@ -50,9 +50,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<GetProductDto> findProductsByCategory(Long categoryId, Long userId) {
+    public List<GetProductDto> findProductsByCategory(Long categoryId, Long userId, String token) {
         List<Product> productsByCategory = this.productRepository.findAllByIsDeletedFalseAndCategoryId(categoryId);
-        return this.productMapper.toGetProductsList(productsByCategory, userId);
+        return this.productMapper.toGetProductsList(productsByCategory, userId, token);
     }
 
     @Override
