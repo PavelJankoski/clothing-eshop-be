@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
     Optional<Person> findPersonByEmailAndIsDeletedFalse(String email);
+
+    Boolean existsByEmailAndIsDeletedFalse(String email);
 }

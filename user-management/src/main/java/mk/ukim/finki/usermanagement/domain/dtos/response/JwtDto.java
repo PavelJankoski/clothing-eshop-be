@@ -1,5 +1,6 @@
 package mk.ukim.finki.usermanagement.domain.dtos.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtDto implements Serializable {
+    @JsonProperty("access_token")
     private String accessToken;
 
-    private String tokenType = "Bearer";
+    @JsonProperty("token_type")
+    private String tokenType;
 
     private String email;
 
