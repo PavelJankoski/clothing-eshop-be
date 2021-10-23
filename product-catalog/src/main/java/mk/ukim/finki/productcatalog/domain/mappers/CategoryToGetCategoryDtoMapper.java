@@ -21,7 +21,7 @@ public class CategoryToGetCategoryDtoMapper {
         return dto;
     }
 
-    public List<GetCategoryDto> toGetBrandDtoList(List<Category> categories) {
+    public List<GetCategoryDto> toGetCategoryDtoList(List<Category> categories) {
         return categories.stream().map(this::toGetCategoryDto).collect(Collectors.toList());
     }
 }

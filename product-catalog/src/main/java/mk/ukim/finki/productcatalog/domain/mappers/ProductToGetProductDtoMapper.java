@@ -31,9 +31,9 @@ public class ProductToGetProductDtoMapper {
         this.restTemplate = restTemplate;
     }
 
-    private GetProductDto toGetProductDto(Product product, Long userId, String token) {
+    public GetProductDto toGetProductDto(Product product, Long userId) {
         GetProductDto dto = new GetProductDto();
-        if(userId<1 || token.trim().length()==0) {
+        if(userId<1) {
             dto.setIsInWishlist(false);
             dto.setIsInShoppingCart(false);
         }
@@ -57,7 +57,7 @@ public class ProductToGetProductDtoMapper {
     }
 
 
-    public List<GetProductDto> toGetProductsList(List<Product> products, Long userId, String token){
-        return products.stream().map(p -> this.toGetProductDto(p, userId, token)).collect(Collectors.toList());
+    public List<GetProductDto> toGetProductsList(List<Product> products, Long userId){
+        return products.stream().map(p -> this.toGetProductDto(p, userId)).collect(Collectors.toList());
     }
 }

@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<GetCategoryDto> findAllCategories() {
         List<Category> categories = this.categoryRepository.findAllByIsDeletedFalse();
 
-        return this.mapper.toGetBrandDtoList(categories);
+        return this.mapper.toGetCategoryDtoList(categories);
     }
 
     @Override

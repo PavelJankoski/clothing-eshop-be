@@ -1,6 +1,7 @@
 package mk.ukim.finki.productcatalog.service.impl;
 
 import mk.ukim.finki.productcatalog.domain.dtos.request.CreateProductDto;
+import mk.ukim.finki.productcatalog.domain.dtos.request.FilterProductsDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
 import mk.ukim.finki.productcatalog.domain.exceptions.ProductNotFoundException;
 import mk.ukim.finki.productcatalog.domain.mappers.ProductToGetProductDtoMapper;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -50,9 +52,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<GetProductDto> findProductsByCategory(Long categoryId, Long userId, String token) {
+    public List<GetProductDto> findProductsByCategory(Long categoryId, Long userId) {
         List<Product> productsByCategory = this.productRepository.findAllByIsDeletedFalseAndCategoryId(categoryId);
-        return this.productMapper.toGetProductsList(productsByCategory, userId, token);
+        return this.productMapper.toGetProductsList(productsByCategory, userId);
+    }
+
+    @Override
+    public List<GetProductDto> findFilteredProducts(FilterProductsDto dto, Long userId) {
+        return this.productMapper.toGetProductsList(this.productRepository.findAllByIsDeletedFalseAndCategoryIdAndPriceBetween(dto.getCategoryId(), dto.getMin(), dto.getMax()), userId);
+    }
+
+    @Override
+    public List<GetProductDto> findAllSearchedProducts(String searchText, Long userId) {
+        return this.productMapper.toGetProductsList(this.productRepository.findAllSearchedProducts(searchText.toLowerCase(Locale.ROOT)), userId);
+    }
+
+    @Override
+    public GetProductDto findProductByCode(String code, Long userId) {
+        Product p = this.productRepository.findProductByCodeAndIsDeletedFalse(code).orElseThrow(() -> new ProductNotFoundException(code));
+        return this.productMapper.toGetProductDto(p, userId);
     }
 
     @Override
