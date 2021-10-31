@@ -25,4 +25,6 @@ public class JwtDto implements Serializable {
     private Long userId;
 
     private String role;
+
+    private String imageUrl;
 }

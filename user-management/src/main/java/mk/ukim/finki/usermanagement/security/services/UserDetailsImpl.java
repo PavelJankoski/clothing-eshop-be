@@ -23,6 +23,8 @@ public class UserDetailsImpl implements UserDetails {
 
     private String phoneNumber;
 
+    private String imageUrl;
+
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(String email,
@@ -30,19 +32,21 @@ public class UserDetailsImpl implements UserDetails {
                            String fullName,
                            Long userId,
                            String phoneNumber,
+                           String imageUrl,
                            Collection<? extends GrantedAuthority> authorities){
         this.email = email;
         this.password = password;
         this.fullName = fullName;
         this.userId = userId;
         this.phoneNumber = phoneNumber;
+        this.imageUrl = imageUrl;
         this.authorities = authorities;
     }
 
     public static UserDetailsImpl build(Person user) {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority(user.getRole().getType().name()));
-        return new UserDetailsImpl(user.getEmail(), user.getPassword(), user.getFullName(), user.getId(), user.getPhoneNumber(), authorityList);
+        return new UserDetailsImpl(user.getEmail(), user.getPassword(), user.getFullName(), user.getId(), user.getPhoneNumber(), user.getImage().getUrl(), authorityList);
     }
 
     @Override
@@ -91,4 +95,6 @@ public class UserDetailsImpl implements UserDetails {
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
+
+    public String getImageUrl() {return this.imageUrl;}
 }

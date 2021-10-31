@@ -41,6 +41,7 @@ public class CustomTokenConverter extends JwtAccessTokenConverter {
         personInfo.put("userId", details.getUserId());
         personInfo.put("fullName", details.getFullName());
         personInfo.put("email", details.getUsername());
+        personInfo.put("imageUrl", details.getImageUrl());
         personInfo.put("role", ((ArrayList<GrantedAuthority>) details.getAuthorities()).get(0).getAuthority().toString());
         return personInfo;
     }
