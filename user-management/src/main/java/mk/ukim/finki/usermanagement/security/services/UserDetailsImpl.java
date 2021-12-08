@@ -46,7 +46,8 @@ public class UserDetailsImpl implements UserDetails {
     public static UserDetailsImpl build(Person user) {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority(user.getRole().getType().name()));
-        return new UserDetailsImpl(user.getEmail(), user.getPassword(), user.getFullName(), user.getId(), user.getPhoneNumber(), user.getImage().getUrl(), authorityList);
+        String imageUrl =  user.getImage() == null ? "" : user.getImage().getUrl();
+        return new UserDetailsImpl(user.getEmail(), user.getPassword(), user.getFullName(), user.getId(), user.getPhoneNumber(), imageUrl, authorityList);
     }
 
     @Override

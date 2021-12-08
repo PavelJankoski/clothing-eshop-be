@@ -7,7 +7,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import mk.ukim.finki.usermanagement.domain.dtos.request.LoginDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.RegisterDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.TokenDto;
+import mk.ukim.finki.usermanagement.domain.dtos.request.UpdateUserRequestDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.JwtDto;
+import mk.ukim.finki.usermanagement.domain.dtos.response.UpdateUserResponseDto;
 import mk.ukim.finki.usermanagement.domain.enums.RoleType;
 import mk.ukim.finki.usermanagement.domain.exceptions.PersonNotFoundException;
 import mk.ukim.finki.usermanagement.domain.models.Image;
@@ -44,10 +46,10 @@ public class PersonServiceImpl implements PersonService {
     @Value("${oauth.google-client-id}")
     private String googleClientId;
 
-    @Value("${oauth.client-id}")
+    @Value("${client_id}")
     private String clientId;
 
-    @Value("${oauth.client-secret}")
+    @Value("${client_credential}")
     private String clientSecret;
 
     private final PasswordEncoder passwordEncoder;
@@ -64,9 +66,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public JwtDto login(LoginDto dto) throws IOException {
-
-        return null;
+    public Person findPersonById(Long id) {
+        return this.personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @Override
@@ -106,6 +107,25 @@ public class PersonServiceImpl implements PersonService {
         String [] name = user.getName().split("\\s+");
         String password = createOrUpdateSocialUser(user.getEmail(), name[0], name[1], (String) linkedHashMap1.get("url"));
         return loginUser(user.getEmail(), password);
+    }
+
+    @Override
+    public UpdateUserResponseDto updateUserInfo(UpdateUserRequestDto dto, Long userId) {
+        Person person = this.findPersonById(userId);
+        Image image = person.getImage();
+        person.setFullName(new FullName(dto.getName(), dto.getSurname()));
+        person.setPhoneNumber(dto.getPhoneNumber());
+        if(dto.getImage() != null) {
+            try {
+                image = this.imageService.save(this.imageService.uploadForUrl(dto.getImage()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                image = person.getImage();
+            }
+            person.setImage(image);
+        }
+        this.personRepository.save(person);
+        return new UpdateUserResponseDto(person.getFullName(), image != null ? image.getUrl() : "");
     }
 
     @Transactional

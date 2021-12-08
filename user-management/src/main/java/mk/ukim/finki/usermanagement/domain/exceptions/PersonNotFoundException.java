@@ -8,4 +8,7 @@ public class PersonNotFoundException extends RuntimeException{
     public PersonNotFoundException(String email){
         super(String.format("Person with email: %s is not found", email));
     }
+    public PersonNotFoundException(Long id){
+        super(String.format("Person with id: %s is not found", id));
+    }
 }
