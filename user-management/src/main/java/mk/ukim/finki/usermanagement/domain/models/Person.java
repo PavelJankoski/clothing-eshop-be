@@ -7,7 +7,6 @@ import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 import mk.ukim.finki.usermanagement.domain.valueobjects.FullName;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class Person extends BaseTimeAuditedEntity {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
-    public String getFullName() {
+    public String getFormattedFullName() {
         return this.fullName.getFirstName() + " " + this.fullName.getLastName();
     }
 

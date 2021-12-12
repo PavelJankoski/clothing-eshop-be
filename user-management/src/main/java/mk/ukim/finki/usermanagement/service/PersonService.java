@@ -6,8 +6,10 @@ import mk.ukim.finki.usermanagement.domain.dtos.request.TokenDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.UpdateUserRequestDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.JwtDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.UpdateUserResponseDto;
+import mk.ukim.finki.usermanagement.domain.dtos.response.UserInfoDto;
 import mk.ukim.finki.usermanagement.domain.models.Person;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 public interface PersonService {
@@ -22,4 +24,6 @@ public interface PersonService {
     JwtDto loginWithFacebook(TokenDto facebookToken);
 
     UpdateUserResponseDto updateUserInfo(UpdateUserRequestDto dto, Long userId);
+
+    UserInfoDto getUserInfo(@NotNull Long userId);
 }

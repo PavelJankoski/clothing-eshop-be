@@ -6,12 +6,10 @@ import mk.ukim.finki.usermanagement.domain.dtos.request.TokenDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.UpdateUserRequestDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.JwtDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.UpdateUserResponseDto;
+import mk.ukim.finki.usermanagement.domain.dtos.response.UserInfoDto;
 import mk.ukim.finki.usermanagement.domain.models.Person;
 import mk.ukim.finki.usermanagement.service.PersonService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +39,11 @@ public class PersonController {
     @PostMapping(value = "/register")
     public ResponseEntity<Person> register(@RequestBody RegisterDto dto) {
          return ResponseEntity.ok(this.personService.register(dto));
+    }
+
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<UserInfoDto> getUserInfo(@PathVariable Long userId) {
+        return ResponseEntity.ok(this.personService.getUserInfo(userId));
     }
 
     @PatchMapping("/{userId}")

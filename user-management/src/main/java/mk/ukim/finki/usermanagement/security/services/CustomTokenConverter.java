@@ -21,10 +21,6 @@ import java.util.Map;
 @Component
 public class CustomTokenConverter extends JwtAccessTokenConverter {
 
-    @Autowired
-    private PersonService personService;
-
-
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         OAuth2AccessToken oAuth2AccessToken;
@@ -39,9 +35,7 @@ public class CustomTokenConverter extends JwtAccessTokenConverter {
     private Map<String, Object> mapUserInfo(UserDetailsImpl details) {
         Map<String, Object> personInfo = new HashMap<>();
         personInfo.put("userId", details.getUserId());
-        personInfo.put("fullName", details.getFullName());
         personInfo.put("email", details.getUsername());
-        personInfo.put("imageUrl", details.getImageUrl());
         personInfo.put("role", ((ArrayList<GrantedAuthority>) details.getAuthorities()).get(0).getAuthority().toString());
         return personInfo;
     }

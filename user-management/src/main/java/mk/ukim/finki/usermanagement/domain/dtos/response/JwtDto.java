@@ -20,11 +20,7 @@ public class JwtDto implements Serializable {
 
     private String email;
 
-    private String fullName;
-
     private Long userId;
 
     private String role;
-
-    private String imageUrl;
 }

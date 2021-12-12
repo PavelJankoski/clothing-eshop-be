@@ -12,42 +12,29 @@ import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private String email;
+    private final String email;
 
     @JsonIgnore
-    private String password;
+    private final String password;
 
-    private String fullName;
+    private final Long userId;
 
-    private Long userId;
-
-    private String phoneNumber;
-
-    private String imageUrl;
-
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(String email,
                            String password,
-                           String fullName,
                            Long userId,
-                           String phoneNumber,
-                           String imageUrl,
                            Collection<? extends GrantedAuthority> authorities){
         this.email = email;
         this.password = password;
-        this.fullName = fullName;
         this.userId = userId;
-        this.phoneNumber = phoneNumber;
-        this.imageUrl = imageUrl;
         this.authorities = authorities;
     }
 
     public static UserDetailsImpl build(Person user) {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority(user.getRole().getType().name()));
-        String imageUrl =  user.getImage() == null ? "" : user.getImage().getUrl();
-        return new UserDetailsImpl(user.getEmail(), user.getPassword(), user.getFullName(), user.getId(), user.getPhoneNumber(), imageUrl, authorityList);
+        return new UserDetailsImpl(user.getEmail(), user.getPassword(), user.getId(), authorityList);
     }
 
     @Override
@@ -85,17 +72,7 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-    public String getFullName() {
-        return this.fullName;
-    }
-
     public Long getUserId() {
         return this.userId;
     }
-
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public String getImageUrl() {return this.imageUrl;}
 }

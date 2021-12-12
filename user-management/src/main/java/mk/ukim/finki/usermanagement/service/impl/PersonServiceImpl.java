@@ -4,14 +4,16 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import mk.ukim.finki.usermanagement.domain.dtos.request.LoginDto;
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.usermanagement.domain.dtos.request.RegisterDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.TokenDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.UpdateUserRequestDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.JwtDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.UpdateUserResponseDto;
+import mk.ukim.finki.usermanagement.domain.dtos.response.UserInfoDto;
 import mk.ukim.finki.usermanagement.domain.enums.RoleType;
 import mk.ukim.finki.usermanagement.domain.exceptions.PersonNotFoundException;
+import mk.ukim.finki.usermanagement.domain.mappers.PersonToUserInfoDtoMapper;
 import mk.ukim.finki.usermanagement.domain.models.Image;
 import mk.ukim.finki.usermanagement.domain.models.Person;
 import mk.ukim.finki.usermanagement.domain.models.Role;
@@ -41,6 +43,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 
 @Service
+@RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
     @Value("${oauth.google-client-id}")
@@ -56,14 +59,8 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final RoleService roleService;
     private final ImageService imageService;
+    private final PersonToUserInfoDtoMapper personToUserInfoDtoMapper;
 
-
-    public PersonServiceImpl(PasswordEncoder passwordEncoder, PersonRepository personRepository, RoleService roleService, ImageService imageService) {
-        this.passwordEncoder = passwordEncoder;
-        this.personRepository = personRepository;
-        this.roleService = roleService;
-        this.imageService = imageService;
-    }
 
     @Override
     public Person findPersonById(Long id) {
@@ -125,7 +122,12 @@ public class PersonServiceImpl implements PersonService {
             person.setImage(image);
         }
         this.personRepository.save(person);
-        return new UpdateUserResponseDto(person.getFullName(), image != null ? image.getUrl() : "");
+        return new UpdateUserResponseDto(person.getFormattedFullName(), image != null ? image.getUrl() : "");
+    }
+
+    @Override
+    public UserInfoDto getUserInfo(Long userId) {
+        return this.personToUserInfoDtoMapper.toGetUserInfoDto(this.findPersonById(userId));
     }
 
     @Transactional
