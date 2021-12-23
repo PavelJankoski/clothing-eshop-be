@@ -1,7 +1,7 @@
 package mk.ukim.finki.usermanagement.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import mk.ukim.finki.usermanagement.domain.models.Person;
+import mk.ukim.finki.usermanagement.domain.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +31,7 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(Person user) {
+    public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority(user.getRole().getType().name()));
         return new UserDetailsImpl(user.getEmail(), user.getPassword(), user.getId(), authorityList);

@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "person")
-public class Person extends BaseTimeAuditedEntity {
+public class User extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,14 +37,10 @@ public class Person extends BaseTimeAuditedEntity {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "user")
     private List<Payment> payments;
 
-    @ManyToMany(targetEntity = Address.class)
-    @JoinTable(
-            name = "person_address",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id"))
+    @OneToMany(targetEntity = Address.class)
     private List<Address> addresses;
 
     @OneToOne
@@ -55,7 +51,7 @@ public class Person extends BaseTimeAuditedEntity {
         return this.fullName.getFirstName() + " " + this.fullName.getLastName();
     }
 
-    public Person(FullName fullName, String email, String password, String phoneNumber, Role role, Image image) {
+    public User(FullName fullName, String email, String password, String phoneNumber, Role role, Image image) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;

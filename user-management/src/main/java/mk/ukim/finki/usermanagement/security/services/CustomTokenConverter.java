@@ -1,11 +1,7 @@
 package mk.ukim.finki.usermanagement.security.services;
 
 import lombok.extern.slf4j.Slf4j;
-import mk.ukim.finki.usermanagement.domain.models.Person;
-import mk.ukim.finki.usermanagement.domain.models.Role;
-import mk.ukim.finki.usermanagement.service.PersonService;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

@@ -8,7 +8,6 @@ import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,7 +32,7 @@ public class Payment extends BaseTimeAuditedEntity {
 
     @ManyToOne
     @JsonIgnore
-    private Person person;
+    private User user;
 
     public Payment(String name, Integer number, LocalDate expiresOn, Integer cvvCode) {
         this.name = name;

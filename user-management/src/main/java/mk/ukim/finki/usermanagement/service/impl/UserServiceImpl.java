@@ -13,14 +13,14 @@ import mk.ukim.finki.usermanagement.domain.dtos.response.UpdateUserResponseDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.UserInfoDto;
 import mk.ukim.finki.usermanagement.domain.enums.RoleType;
 import mk.ukim.finki.usermanagement.domain.exceptions.PersonNotFoundException;
-import mk.ukim.finki.usermanagement.domain.mappers.PersonToUserInfoDtoMapper;
+import mk.ukim.finki.usermanagement.domain.mappers.UserToUserInfoDtoMapper;
 import mk.ukim.finki.usermanagement.domain.models.Image;
-import mk.ukim.finki.usermanagement.domain.models.Person;
+import mk.ukim.finki.usermanagement.domain.models.User;
 import mk.ukim.finki.usermanagement.domain.models.Role;
 import mk.ukim.finki.usermanagement.domain.valueobjects.FullName;
-import mk.ukim.finki.usermanagement.repository.PersonRepository;
+import mk.ukim.finki.usermanagement.repository.UserRepository;
 import mk.ukim.finki.usermanagement.service.ImageService;
-import mk.ukim.finki.usermanagement.service.PersonService;
+import mk.ukim.finki.usermanagement.service.UserService;
 import mk.ukim.finki.usermanagement.service.RoleService;
 import mk.ukim.finki.usermanagement.util.CommonFunctions;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +30,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -44,7 +43,7 @@ import java.util.LinkedHashMap;
 
 @Service
 @RequiredArgsConstructor
-public class PersonServiceImpl implements PersonService {
+public class UserServiceImpl implements UserService {
 
     @Value("${oauth.google-client-id}")
     private String googleClientId;
@@ -56,29 +55,29 @@ public class PersonServiceImpl implements PersonService {
     private String clientSecret;
 
     private final PasswordEncoder passwordEncoder;
-    private final PersonRepository personRepository;
+    private final UserRepository userRepository;
     private final RoleService roleService;
     private final ImageService imageService;
-    private final PersonToUserInfoDtoMapper personToUserInfoDtoMapper;
+    private final UserToUserInfoDtoMapper userToUserInfoDtoMapper;
 
 
     @Override
-    public Person findPersonById(Long id) {
-        return this.personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+    public User findPersonById(Long id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @Override
-    public Person register(RegisterDto dto) {
+    public User register(RegisterDto dto) {
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         Role role = this.roleService.findRoleByType(RoleType.ROLE_USER);
-        Person person = new Person(new FullName(dto.getFirstName(), dto.getLastName()), dto.getEmail(), encodedPassword, dto.getPhoneNumber(), role, null);
+        User user = new User(new FullName(dto.getFirstName(), dto.getLastName()), dto.getEmail(), encodedPassword, dto.getPhoneNumber(), role, null);
 
-        return this.personRepository.save(person);
+        return this.userRepository.save(user);
     }
 
     @Override
-    public Person findPersonByEmail(String email) {
-        return this.personRepository.findPersonByEmailAndIsDeletedFalse(email).orElseThrow(() -> new PersonNotFoundException(email));
+    public User findPersonByEmail(String email) {
+        return this.userRepository.findPersonByEmailAndIsDeletedFalse(email).orElseThrow(() -> new PersonNotFoundException(email));
     }
 
     @Override
@@ -98,7 +97,7 @@ public class PersonServiceImpl implements PersonService {
     public JwtDto loginWithFacebook(TokenDto facebookToken) {
         Facebook facebook = new FacebookTemplate(facebookToken.getToken());
         final String [] fields = {"email", "picture", "name"};
-        User user =  facebook.fetchObject("me", User.class, fields);
+        org.springframework.social.facebook.api.User user =  facebook.fetchObject("me", org.springframework.social.facebook.api.User.class, fields);
         LinkedHashMap linkedHashMap = (LinkedHashMap) user.getExtraData().get("picture");
         LinkedHashMap linkedHashMap1 = (LinkedHashMap) linkedHashMap.get("data");
         String [] name = user.getName().split("\\s+");
@@ -108,41 +107,41 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public UpdateUserResponseDto updateUserInfo(UpdateUserRequestDto dto, Long userId) {
-        Person person = this.findPersonById(userId);
-        Image image = person.getImage();
-        person.setFullName(new FullName(dto.getName(), dto.getSurname()));
-        person.setPhoneNumber(dto.getPhoneNumber());
+        User user = this.findPersonById(userId);
+        Image image = user.getImage();
+        user.setFullName(new FullName(dto.getName(), dto.getSurname()));
+        user.setPhoneNumber(dto.getPhoneNumber());
         if(dto.getImage() != null) {
             try {
                 image = this.imageService.save(this.imageService.uploadForUrl(dto.getImage()));
             } catch (IOException e) {
                 e.printStackTrace();
-                image = person.getImage();
+                image = user.getImage();
             }
-            person.setImage(image);
+            user.setImage(image);
         }
-        this.personRepository.save(person);
-        return new UpdateUserResponseDto(person.getFormattedFullName(), image != null ? image.getUrl() : "");
+        this.userRepository.save(user);
+        return new UpdateUserResponseDto(user.getFormattedFullName(), image != null ? image.getUrl() : "");
     }
 
     @Override
     public UserInfoDto getUserInfo(Long userId) {
-        return this.personToUserInfoDtoMapper.toGetUserInfoDto(this.findPersonById(userId));
+        return this.userToUserInfoDtoMapper.toGetUserInfoDto(this.findPersonById(userId));
     }
 
     @Transactional
     String createOrUpdateSocialUser(String email, String firstName, String lastName, String imageUrl) {
         String password = CommonFunctions.alphaNumericString(15);
-        Person person;
-        if(!this.personRepository.existsByEmailAndIsDeletedFalse(email)) {
+        User user;
+        if(!this.userRepository.existsByEmailAndIsDeletedFalse(email)) {
             Image image = this.imageService.save(imageUrl);
-            person = new Person(new FullName(firstName, lastName), email, passwordEncoder.encode(password), "", this.roleService.findRoleByType(RoleType.ROLE_USER), image);
+            user = new User(new FullName(firstName, lastName), email, passwordEncoder.encode(password), "", this.roleService.findRoleByType(RoleType.ROLE_USER), image);
         }
         else {
-            person = this.personRepository.findPersonByEmailAndIsDeletedFalse(email).orElseThrow(() -> new PersonNotFoundException(email));
-            person.setPassword(passwordEncoder.encode(password));
+            user = this.userRepository.findPersonByEmailAndIsDeletedFalse(email).orElseThrow(() -> new PersonNotFoundException(email));
+            user.setPassword(passwordEncoder.encode(password));
         }
-        this.personRepository.saveAndFlush(person);
+        this.userRepository.saveAndFlush(user);
         return password;
     }
 

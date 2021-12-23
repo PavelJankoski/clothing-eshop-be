@@ -1,15 +1,15 @@
 package mk.ukim.finki.usermanagement.repository;
 
-import mk.ukim.finki.usermanagement.domain.models.Person;
+import mk.ukim.finki.usermanagement.domain.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<Person> findPersonByEmailAndIsDeletedFalse(String email);
+    Optional<User> findPersonByEmailAndIsDeletedFalse(String email);
 
     Boolean existsByEmailAndIsDeletedFalse(String email);
 }
