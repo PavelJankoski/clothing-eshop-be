@@ -12,11 +12,11 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 public interface UserService {
-    User findPersonById(Long id);
+    User findUserById(Long id);
 
     User register(RegisterDto dto);
 
-    User findPersonByEmail(String email);
+    User findUserByEmail(String email);
 
     JwtDto loginWithGoogle(TokenDto googleToken) throws IOException;
 
@@ -25,4 +25,9 @@ public interface UserService {
     UpdateUserResponseDto updateUserInfo(UpdateUserRequestDto dto, Long userId);
 
     UserInfoDto getUserInfo(@NotNull Long userId);
+
+    Long getDefaultAddressId(@NotNull Long userId);
+
+    User save(User user);
+
 }

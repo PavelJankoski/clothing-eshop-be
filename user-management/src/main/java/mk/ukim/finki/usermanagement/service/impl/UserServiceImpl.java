@@ -12,8 +12,9 @@ import mk.ukim.finki.usermanagement.domain.dtos.response.JwtDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.UpdateUserResponseDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.UserInfoDto;
 import mk.ukim.finki.usermanagement.domain.enums.RoleType;
-import mk.ukim.finki.usermanagement.domain.exceptions.PersonNotFoundException;
+import mk.ukim.finki.usermanagement.domain.exceptions.UserNotFoundException;
 import mk.ukim.finki.usermanagement.domain.mappers.UserToUserInfoDtoMapper;
+import mk.ukim.finki.usermanagement.domain.models.Address;
 import mk.ukim.finki.usermanagement.domain.models.Image;
 import mk.ukim.finki.usermanagement.domain.models.User;
 import mk.ukim.finki.usermanagement.domain.models.Role;
@@ -62,8 +63,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User findPersonById(Long id) {
-        return this.userRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+    public User findUserById(Long id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override
@@ -76,8 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findPersonByEmail(String email) {
-        return this.userRepository.findPersonByEmailAndIsDeletedFalse(email).orElseThrow(() -> new PersonNotFoundException(email));
+    public User findUserByEmail(String email) {
+        return this.userRepository.findUserByEmailAndIsDeletedFalse(email).orElseThrow(() -> new UserNotFoundException(email));
     }
 
     @Override
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UpdateUserResponseDto updateUserInfo(UpdateUserRequestDto dto, Long userId) {
-        User user = this.findPersonById(userId);
+        User user = this.findUserById(userId);
         Image image = user.getImage();
         user.setFullName(new FullName(dto.getName(), dto.getSurname()));
         user.setPhoneNumber(dto.getPhoneNumber());
@@ -126,8 +127,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoDto getUserInfo(Long userId) {
-        return this.userToUserInfoDtoMapper.toGetUserInfoDto(this.findPersonById(userId));
+        return this.userToUserInfoDtoMapper.toGetUserInfoDto(this.findUserById(userId));
     }
+
+    @Override
+    public Long getDefaultAddressId(Long userId) {
+        User user = this.findUserById(userId);
+        if(user.getDefaultAddress() == null) return 0L;
+        return user.getDefaultAddress().getId();
+    }
+
+    @Override
+    public User save(User user) {
+        return this.userRepository.save(user);
+    }
+
 
     @Transactional
     String createOrUpdateSocialUser(String email, String firstName, String lastName, String imageUrl) {
@@ -138,7 +152,7 @@ public class UserServiceImpl implements UserService {
             user = new User(new FullName(firstName, lastName), email, passwordEncoder.encode(password), "", this.roleService.findRoleByType(RoleType.ROLE_USER), image);
         }
         else {
-            user = this.userRepository.findPersonByEmailAndIsDeletedFalse(email).orElseThrow(() -> new PersonNotFoundException(email));
+            user = this.userRepository.findUserByEmailAndIsDeletedFalse(email).orElseThrow(() -> new UserNotFoundException(email));
             user.setPassword(passwordEncoder.encode(password));
         }
         this.userRepository.saveAndFlush(user);

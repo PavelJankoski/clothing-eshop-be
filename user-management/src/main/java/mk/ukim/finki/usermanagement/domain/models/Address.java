@@ -1,5 +1,6 @@
 package mk.ukim.finki.usermanagement.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,10 @@ public class Address extends BaseTimeAuditedEntity {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
+
+    @ManyToOne
+    @JsonIgnore
+    private User user;
 
     public Address(String street, String streetNo, String city, String country, Integer postalCode) {
         this.street = street;

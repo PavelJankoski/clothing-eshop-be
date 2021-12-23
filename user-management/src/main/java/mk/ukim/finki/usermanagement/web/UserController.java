@@ -1,5 +1,6 @@
 package mk.ukim.finki.usermanagement.web;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.usermanagement.domain.dtos.request.RegisterDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.TokenDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.UpdateUserRequestDto;
@@ -15,15 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(value = "/persons")
+@RequestMapping(value = "/users")
 @CrossOrigin(value = "*")
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
 
     @PostMapping(value = "/oauth/google")
     public ResponseEntity<JwtDto> signInGoogle(@RequestBody TokenDto dto) throws IOException {

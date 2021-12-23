@@ -29,10 +29,10 @@ public class CustomTokenConverter extends JwtAccessTokenConverter {
     }
 
     private Map<String, Object> mapUserInfo(UserDetailsImpl details) {
-        Map<String, Object> personInfo = new HashMap<>();
-        personInfo.put("userId", details.getUserId());
-        personInfo.put("email", details.getUsername());
-        personInfo.put("role", ((ArrayList<GrantedAuthority>) details.getAuthorities()).get(0).getAuthority().toString());
-        return personInfo;
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("userId", details.getUserId());
+        userInfo.put("email", details.getUsername());
+        userInfo.put("role", ((ArrayList<GrantedAuthority>) details.getAuthorities()).get(0).getAuthority().toString());
+        return userInfo;
     }
 }

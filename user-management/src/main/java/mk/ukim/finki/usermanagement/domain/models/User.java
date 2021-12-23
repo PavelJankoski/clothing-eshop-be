@@ -40,8 +40,14 @@ public class User extends BaseTimeAuditedEntity {
     @OneToMany(mappedBy = "user")
     private List<Payment> payments;
 
-    @OneToMany(targetEntity = Address.class)
+    @ManyToOne
+    private Payment defaultPayment;
+
+    @OneToMany(mappedBy = "user")
     private List<Address> addresses;
+
+    @ManyToOne
+    private Address defaultAddress;
 
     @OneToOne
     @JoinColumn(name = "image_id", referencedColumnName = "id")
