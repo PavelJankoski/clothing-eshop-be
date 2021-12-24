@@ -69,6 +69,14 @@ public class AddressServiceImpl implements AddressService {
         return this.userService.save(user).getDefaultAddress().getId();
     }
 
+    @Override
+    public void deleteAddress(Long addressId) {
+        Address address = this.findById(addressId);
+        address.setIsDeleted(true);
+        this.userService.checkAndRemoveDefaultAddress(addressId, address.getUser().getId());
+        this.addressRepository.save(address);
+    }
+
     private void checkIfDefault(Boolean isDefault, Long userId, Long addressId) {
         if(isDefault) {
             this.setDefaultAddress(userId, addressId);

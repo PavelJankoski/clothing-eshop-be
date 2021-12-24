@@ -30,4 +30,6 @@ public interface UserService {
 
     User save(User user);
 
+    void checkAndRemoveDefaultAddress(Long addressId, Long userId);
+
 }

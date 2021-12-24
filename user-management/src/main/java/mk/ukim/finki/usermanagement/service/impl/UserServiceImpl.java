@@ -142,6 +142,15 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.save(user);
     }
 
+    @Override
+    public void checkAndRemoveDefaultAddress(Long addressId, Long userId) {
+        User user = this.findUserById(userId);
+        if(user.getDefaultAddress() != null && user.getDefaultAddress().getId().equals(addressId)) {
+            user.setDefaultAddress(null);
+            this.userRepository.save(user);
+        }
+    }
+
 
     @Transactional
     String createOrUpdateSocialUser(String email, String firstName, String lastName, String imageUrl) {

@@ -20,4 +20,6 @@ public interface AddressService {
 
     Long setDefaultAddress(@NotNull Long userId, @NotNull Long addressId);
 
+    void deleteAddress(@NotNull Long addressId);
+
 }
