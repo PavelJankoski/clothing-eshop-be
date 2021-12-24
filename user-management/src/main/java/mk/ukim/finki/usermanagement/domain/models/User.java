@@ -38,12 +38,6 @@ public class User extends BaseTimeAuditedEntity {
     private Boolean isDeleted = false;
 
     @OneToMany(mappedBy = "user")
-    private List<Payment> payments;
-
-    @ManyToOne
-    private Payment defaultPayment;
-
-    @OneToMany(mappedBy = "user")
     private List<Address> addresses;
 
     @ManyToOne
@@ -63,7 +57,6 @@ public class User extends BaseTimeAuditedEntity {
         this.password = password;
         this.role = role;
         this.addresses = new ArrayList<>();
-        this.payments = new ArrayList<>();
         this.image = image;
         this.phoneNumber=phoneNumber;
     }
