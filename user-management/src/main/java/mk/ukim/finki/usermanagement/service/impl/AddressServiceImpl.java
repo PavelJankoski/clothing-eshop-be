@@ -1,8 +1,7 @@
 package mk.ukim.finki.usermanagement.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.usermanagement.domain.dtos.request.CreateAddressDto;
-import mk.ukim.finki.usermanagement.domain.dtos.request.EditAddressDto;
+import mk.ukim.finki.usermanagement.domain.dtos.request.CreateEditAddressDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.GetAddressDto;
 import mk.ukim.finki.usermanagement.domain.exceptions.AddressNotFoundException;
 import mk.ukim.finki.usermanagement.domain.mappers.AddressToGetAddressDtoMapper;
@@ -33,7 +32,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public GetAddressDto saveAddressForUser(Long userId, CreateAddressDto dto) {
+    public GetAddressDto saveAddressForUser(Long userId, CreateEditAddressDto dto) {
         User user = this.userService.findUserById(userId);
         Address address = new Address(dto.getStreet(), dto.getStreetNo(), dto.getCity(), dto.getCountry(), dto.getPostalCode());
         address.setUser(user);
@@ -43,14 +42,16 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public GetAddressDto editAddress(Long id, EditAddressDto dto) {
-        Address address = this.findById(id);
+    public GetAddressDto editAddress(Long addressId, Long userId, CreateEditAddressDto dto) {
+        Address address = this.findById(addressId);
         address.setCity(dto.getCity());
         address.setCountry(dto.getCountry());
         address.setStreet(dto.getStreet());
         address.setPostalCode(dto.getPostalCode());
         address.setStreetNo(dto.getStreetNo());
-        return this.addressToGetAddressDtoMapper.toGetAddressDto(this.addressRepository.save(address), 0L);
+        Address addressResponse = this.addressRepository.save(address);
+        this.checkIfDefault(dto.getIsDefault(), userId, addressResponse.getId());
+        return this.addressToGetAddressDtoMapper.toGetAddressDto(addressResponse, dto.getIsDefault() ? addressResponse.getId() : 0L);
     }
 
     @Override

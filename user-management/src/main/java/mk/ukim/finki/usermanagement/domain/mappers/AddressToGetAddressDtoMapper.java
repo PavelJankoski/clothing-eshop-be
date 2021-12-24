@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class AddressToGetAddressDtoMapper {
     public GetAddressDto toGetAddressDto(Address address, Long defaultAddress) {
         GetAddressDto dto = new GetAddressDto();
+        dto.setId(address.getId());
         dto.setCity(address.getCity());
         dto.setCountry(address.getCountry());
         dto.setStreet(address.getStreet());

@@ -9,10 +9,11 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditAddressDto implements Serializable {
+public class CreateEditAddressDto implements Serializable {
     String street;
     String streetNo;
     String city;
     String country;
     Integer postalCode;
+    Boolean isDefault;
 }

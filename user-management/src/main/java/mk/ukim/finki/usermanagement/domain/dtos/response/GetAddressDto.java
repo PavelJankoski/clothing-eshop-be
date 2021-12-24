@@ -10,6 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetAddressDto implements Serializable {
+    Long id;
     String street;
     String streetNo;
     String city;

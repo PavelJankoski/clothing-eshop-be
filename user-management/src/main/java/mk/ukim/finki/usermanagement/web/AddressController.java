@@ -1,8 +1,7 @@
 package mk.ukim.finki.usermanagement.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.usermanagement.domain.dtos.request.CreateAddressDto;
-import mk.ukim.finki.usermanagement.domain.dtos.request.EditAddressDto;
+import mk.ukim.finki.usermanagement.domain.dtos.request.CreateEditAddressDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.GetAddressDto;
 import mk.ukim.finki.usermanagement.service.AddressService;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +23,20 @@ public class AddressController {
 
     @PostMapping("/{userId}")
     public ResponseEntity<GetAddressDto> createAddressForUser(@PathVariable Long userId,
-                                                              @RequestBody CreateAddressDto dto) {
+                                                              @RequestBody CreateEditAddressDto dto) {
         return ResponseEntity.ok(this.addressService.saveAddressForUser(userId, dto));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<GetAddressDto> editAddress(@PathVariable Long id,
-                                                     @RequestBody EditAddressDto dto) {
-        return ResponseEntity.ok(this.addressService.editAddress(id, dto));
+    @PatchMapping("/{addressId}/users/{userId}")
+    public ResponseEntity<GetAddressDto> editAddress(@PathVariable Long addressId,
+                                                     @PathVariable Long userId,
+                                                     @RequestBody CreateEditAddressDto dto) {
+        return ResponseEntity.ok(this.addressService.editAddress(addressId, userId, dto));
     }
 
-    @PatchMapping("/{addressId}/users/{userId}")
-    public ResponseEntity<Long> setDefaultAddressForUser(@PathVariable Long userId,
-                                                         @PathVariable Long addressId) {
-        return ResponseEntity.ok(this.addressService.setDefaultAddress(userId, addressId));
-    }
+//    @PatchMapping("/{addressId}/users/{userId}")
+//    public ResponseEntity<Long> setDefaultAddressForUser(@PathVariable Long userId,
+//                                                         @PathVariable Long addressId) {
+//        return ResponseEntity.ok(this.addressService.setDefaultAddress(userId, addressId));
+//    }
 }

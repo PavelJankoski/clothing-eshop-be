@@ -1,7 +1,6 @@
 package mk.ukim.finki.usermanagement.service;
 
-import mk.ukim.finki.usermanagement.domain.dtos.request.CreateAddressDto;
-import mk.ukim.finki.usermanagement.domain.dtos.request.EditAddressDto;
+import mk.ukim.finki.usermanagement.domain.dtos.request.CreateEditAddressDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.GetAddressDto;
 import mk.ukim.finki.usermanagement.domain.models.Address;
 
@@ -13,9 +12,9 @@ public interface AddressService {
 
     Address findById(Long id);
 
-    GetAddressDto saveAddressForUser(Long userId, CreateAddressDto dto);
+    GetAddressDto saveAddressForUser(Long userId, CreateEditAddressDto dto);
 
-    GetAddressDto editAddress(Long id, EditAddressDto dto);
+    GetAddressDto editAddress(Long addressId, Long userId, CreateEditAddressDto dto);
 
     List<GetAddressDto> getAddressesForUser(Long userId);
 
