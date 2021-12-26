@@ -7,6 +7,7 @@ import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,5 +34,6 @@ public class Wishlist extends BaseTimeAuditedEntity {
 
     public Wishlist(Long userId) {
         this.userId = userId;
+        this.products = new ArrayList<>();
     }
 }

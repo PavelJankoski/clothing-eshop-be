@@ -1,5 +1,6 @@
 package mk.ukim.finki.productcatalog.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.productcatalog.domain.dtos.request.CreateProductDto;
 import mk.ukim.finki.productcatalog.domain.dtos.request.FilterProductsDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
@@ -23,20 +24,13 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final ProductToGetProductDtoMapper productMapper;
     private final BrandService brandService;
     private final ImageService imageService;
-
-    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, ProductToGetProductDtoMapper productMapper, BrandService brandService, ImageService imageService) {
-        this.productRepository = productRepository;
-        this.categoryService = categoryService;
-        this.productMapper = productMapper;
-        this.brandService = brandService;
-        this.imageService = imageService;
-    }
 
     @Override
     public Product insert(CreateProductDto dto) {

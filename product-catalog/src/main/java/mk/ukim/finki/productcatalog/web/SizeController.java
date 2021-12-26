@@ -1,5 +1,6 @@
 package mk.ukim.finki.productcatalog.web;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.productcatalog.domain.dtos.request.CreateSizeDto;
 import mk.ukim.finki.productcatalog.domain.models.Size;
 import mk.ukim.finki.productcatalog.service.SizeService;
@@ -12,12 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/sizes")
+@RequiredArgsConstructor
 public class SizeController {
     private final SizeService sizeService;
-
-    public SizeController(SizeService sizeService) {
-        this.sizeService = sizeService;
-    }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
