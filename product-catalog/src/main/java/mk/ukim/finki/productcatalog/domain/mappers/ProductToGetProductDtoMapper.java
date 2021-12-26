@@ -1,5 +1,6 @@
 package mk.ukim.finki.productcatalog.domain.mappers;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetSizeDto;
 import mk.ukim.finki.productcatalog.domain.models.Image;
@@ -23,29 +24,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class ProductToGetProductDtoMapper {
-    private final ProductRepository productRepository;
-    private final RestTemplate restTemplate;
-
-    public ProductToGetProductDtoMapper(ProductRepository productRepository, RestTemplate restTemplate) {
-        this.productRepository = productRepository;
-        this.restTemplate = restTemplate;
-    }
-
-    public GetProductDto toGetProductDto(Product product, Long userId) {
+    public GetProductDto toGetProductDto(Product product) {
         GetProductDto dto = new GetProductDto();
-        if(userId<1) {
-            dto.setIsInWishlist(false);
-            dto.setIsInShoppingCart(false);
-        }
-        else {
-            dto.setIsInWishlist(this.productRepository.isProductInWishlist(userId, product.getId()));
-            try {
-                dto.setIsInShoppingCart(restTemplate.getForObject(String.format("http://ORDER-MANAGEMENT-SERVICE/orders/existsInShoppingCart/%s/%s", userId, product.getId()), Boolean.class));
-            } catch (Exception ex) {
-                dto.setIsInWishlist(false);
-                dto.setIsInShoppingCart(false);
-            }
-        }
         List<GetSizeDto> sizes = product.getSizes().stream().map(s -> new GetSizeDto(s.getId(), s.getSize())).collect(Collectors.toList());
         List<String> images = product.getImages().stream().map(Image::getUrl).collect(Collectors.toList());
         dto.setId(product.getId());
@@ -62,7 +42,7 @@ public class ProductToGetProductDtoMapper {
     }
 
 
-    public List<GetProductDto> toGetProductsList(List<Product> products, Long userId){
-        return products.stream().map(p -> this.toGetProductDto(p, userId)).collect(Collectors.toList());
+    public List<GetProductDto> toGetProductsList(List<Product> products){
+        return products.stream().map(this::toGetProductDto).collect(Collectors.toList());
     }
 }

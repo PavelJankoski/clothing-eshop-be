@@ -31,7 +31,5 @@ public class GetProductDto implements Serializable {
 
     private List<String> images;
 
-    private Boolean isInShoppingCart;
-
-    private Boolean isInWishlist;
+    private Boolean isInWishlist = false;
 }

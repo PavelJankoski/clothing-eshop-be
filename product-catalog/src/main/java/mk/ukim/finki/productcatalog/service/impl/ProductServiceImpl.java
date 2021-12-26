@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -54,23 +55,26 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public List<GetProductDto> findProductsByCategory(Long categoryId, Long userId) {
         List<Product> productsByCategory = this.productRepository.findAllByIsDeletedFalseAndCategoryId(categoryId);
-        return this.productMapper.toGetProductsList(productsByCategory, userId);
+        List<GetProductDto> dtoList = this.productMapper.toGetProductsList(productsByCategory);
+        return dtoList.stream().map(p -> this.setIsInWishlist(p, userId)).collect(Collectors.toList());
     }
 
     @Override
     public List<GetProductDto> findFilteredProducts(FilterProductsDto dto, Long userId) {
-        return this.productMapper.toGetProductsList(this.productRepository.findAllByIsDeletedFalseAndCategoryIdAndPriceBetween(dto.getCategoryId(), dto.getMin(), dto.getMax()), userId);
+        List<GetProductDto> dtoList = this.productMapper.toGetProductsList(this.productRepository.findAllByIsDeletedFalseAndCategoryIdAndPriceBetween(dto.getCategoryId(), dto.getMin(), dto.getMax()));
+        return dtoList.stream().map(p -> this.setIsInWishlist(p, userId)).collect(Collectors.toList());
     }
 
     @Override
     public List<GetProductDto> findAllSearchedProducts(String searchText, Long userId) {
-        return this.productMapper.toGetProductsList(this.productRepository.findAllSearchedProducts(searchText.toLowerCase(Locale.ROOT)), userId);
+        List<GetProductDto> dtoList = this.productMapper.toGetProductsList(this.productRepository.findAllSearchedProducts(searchText.toLowerCase(Locale.ROOT)));
+        return dtoList.stream().map(p -> this.setIsInWishlist(p, userId)).collect(Collectors.toList());
     }
 
     @Override
     public GetProductDto findProductByCode(String code, Long userId) {
         Product p = this.productRepository.findProductByCodeAndIsDeletedFalse(code).orElseThrow(() -> new ProductNotFoundException(code));
-        return this.productMapper.toGetProductDto(p, userId);
+        return setIsInWishlist(this.productMapper.toGetProductDto(p), userId);
     }
 
     @Override
@@ -79,5 +83,11 @@ public class ProductServiceImpl implements ProductService {
         for(MultipartFile imagePart: images) {
             this.imageService.uploadForImage(imagePart, product);
         }
+    }
+
+    private GetProductDto setIsInWishlist(GetProductDto dto, Long userId) {
+        if(userId<1) return dto;
+        dto.setIsInWishlist(this.productRepository.isProductInWishlist(userId, dto.getId()));
+        return dto;
     }
 }

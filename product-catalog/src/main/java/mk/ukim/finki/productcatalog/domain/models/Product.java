@@ -54,13 +54,6 @@ public class Product extends BaseTimeAuditedEntity {
     @OneToMany(mappedBy = "product")
     private List<Image> images;
 
-    @ManyToMany(targetEntity = Wishlist.class)
-    @JoinTable(
-            name = "product_wishlist",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "wishlist_id"))
-    private List<Wishlist> wishlists;
-
     public Product(String name, String description, Float price, String code, Brand brand, Category category) {
         this.name = name;
         this.description = description;
@@ -70,6 +63,5 @@ public class Product extends BaseTimeAuditedEntity {
         this.category = category;
         this.sizes = new ArrayList<>();
         this.reviews = new ArrayList<>();
-        this.wishlists = new ArrayList<>();
     }
 }
