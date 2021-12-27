@@ -1,5 +1,6 @@
 package mk.ukim.finki.productcatalog.web;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.productcatalog.domain.dtos.request.CreateProductDto;
 import mk.ukim.finki.productcatalog.domain.dtos.request.FilterProductsDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
@@ -17,12 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/products")
 @CrossOrigin(value = "*")
+@RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
 
     @GetMapping(value = "/{categoryId}")
     public ResponseEntity<List<GetProductDto>> getProductsForCategory(@PathVariable Long categoryId, @RequestParam(required = false, defaultValue = "0") String userId) {

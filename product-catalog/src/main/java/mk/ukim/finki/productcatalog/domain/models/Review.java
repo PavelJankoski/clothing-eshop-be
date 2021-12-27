@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class Review extends BaseTimeAuditedEntity {
     private LocalDateTime reviewedOn;
 
     @Column(name = "is_deleted")
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
 
     private Long userId;
@@ -34,7 +36,7 @@ public class Review extends BaseTimeAuditedEntity {
     @JsonIgnore
     private Product product;
 
-    public Review(float rating, String review, Long userId, Product product) {
+    public Review(Float rating, String review, Long userId, Product product) {
         this.rating = rating;
         this.review = review;
         this.userId = userId;
