@@ -22,5 +22,7 @@ public interface ProductService {
 
     GetProductDto findProductByCode(String code, Long userId);
 
+    GetProductDto setIsInWishlist(GetProductDto dto, Long userId);
+
     void uploadImagesForProduct(MultipartFile[] images, Long productId) throws IOException;
 }

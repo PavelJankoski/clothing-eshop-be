@@ -79,7 +79,8 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private GetProductDto setIsInWishlist(GetProductDto dto, Long userId) {
+    @Override
+    public GetProductDto setIsInWishlist(GetProductDto dto, Long userId) {
         if(userId<1) return dto;
         dto.setIsInWishlist(this.productRepository.isProductInWishlist(userId, dto.getId()));
         return dto;

@@ -23,7 +23,10 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     public List<GetProductDto> wishlistProductsForUser(Long userId) {
         Wishlist wishlist = getOrCreateWishlistForUser(userId);
-        return this.productToGetProductDtoMapper.toGetProductsList(wishlist.getProducts());
+        return this.productToGetProductDtoMapper.toGetProductsList(wishlist.getProducts())
+                .stream()
+                .map(dto -> this.productService.setIsInWishlist(dto, userId))
+                .collect(Collectors.toList());
     }
 
     @Override
