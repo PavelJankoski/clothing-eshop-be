@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 import mk.ukim.finki.usermanagement.domain.enums.RoleType;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class Role extends BaseTimeAuditedEntity {
     private RoleType type;
 
     @Column(name = "is_deleted")
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
 
     public Role(RoleType type) {

@@ -6,6 +6,7 @@ import lombok.Setter;
 import mk.ukim.finki.ordermanagement.domain.enums.PaymentType;
 import mk.ukim.finki.ordermanagement.domain.valueobjects.Address;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class OrderDetails extends BaseTimeAuditedEntity {
     private Float totalAmount;
 
     @Column(name = "is_deleted")
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
 
     public OrderDetails(PaymentType paymentType, Address address, Float totalAmount) {

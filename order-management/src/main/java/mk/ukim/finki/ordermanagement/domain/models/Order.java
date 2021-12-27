@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.ordermanagement.domain.enums.OrderStatus;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class Order extends BaseTimeAuditedEntity {
     private List<OrderItem> orderItems;
 
     @Column(name = "is_deleted")
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
 
     @OneToOne

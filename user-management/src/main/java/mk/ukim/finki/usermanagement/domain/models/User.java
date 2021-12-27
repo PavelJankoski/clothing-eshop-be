@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 import mk.ukim.finki.usermanagement.domain.valueobjects.FullName;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class User extends BaseTimeAuditedEntity {
     private Role role;
 
     @Column(name = "is_deleted")
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
 
     @OneToMany(mappedBy = "user")

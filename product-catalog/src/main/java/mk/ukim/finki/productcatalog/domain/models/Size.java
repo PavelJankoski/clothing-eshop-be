@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.productcatalog.domain.enums.SizeType;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class Size extends BaseTimeAuditedEntity {
     private SizeType type;
 
     @Column(name = "is_deleted")
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
 
     @ManyToMany(mappedBy = "sizes")

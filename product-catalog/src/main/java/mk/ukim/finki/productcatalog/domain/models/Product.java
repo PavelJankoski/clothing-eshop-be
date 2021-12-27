@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public class Product extends BaseTimeAuditedEntity {
     private String code;
 
     @Column(name = "is_deleted")
+    @ColumnDefault("false")
     private Boolean isDeleted = false;
 
     @ManyToOne
