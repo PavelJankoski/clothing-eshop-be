@@ -28,10 +28,10 @@ public class Product extends BaseTimeAuditedEntity {
 
     private Float price;
 
-    @Formula("(select coalesce(avg(r.rating), 0) from review r where r.product_id=id)")
+    @Formula("(select coalesce(avg(r.rating), 0) from review r where r.product_id=id and r.is_deleted=false)")
     private Float starRating;
 
-    @Formula("(select coalesce(count(r.rating), 0) from review r where r.product_id=id)")
+    @Formula("(select coalesce(count(r.rating), 0) from review r where r.product_id=id and r.is_deleted=false)")
     private Integer numRatings;
 
     @Column(name = "code", unique = true)
