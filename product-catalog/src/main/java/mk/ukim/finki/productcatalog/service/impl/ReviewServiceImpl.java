@@ -26,13 +26,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<GetReviewDto> findReviewsForProduct(Long productId) {
-        List<Review> reviews = this.reviewRepository.findAllByProductIdAndIsDeletedFalse(productId);
+        List<Review> reviews = this.reviewRepository.findAllByProductIdAndIsDeletedFalseOrderByReviewedOnDesc(productId);
         return getReviewsWithUserInfo(reviews);
     }
 
     @Override
     public List<GetReviewDto> findReviewsByRating(Long productId, Float rating) {
-        List<Review> reviews = this.reviewRepository.findAllByProductIdAndRatingAndIsDeletedFalse(productId, rating);
+        List<Review> reviews = this.reviewRepository.findAllByProductIdAndRatingAndIsDeletedFalseOrderByReviewedOnDesc(productId, rating);
         return getReviewsWithUserInfo(reviews);
     }
 

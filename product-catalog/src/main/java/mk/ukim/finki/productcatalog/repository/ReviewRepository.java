@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    List<Review> findAllByProductIdAndIsDeletedFalse(Long productId);
-    List<Review> findAllByProductIdAndRatingAndIsDeletedFalse(Long productId, Float rating);
+    List<Review> findAllByProductIdAndIsDeletedFalseOrderByReviewedOnDesc(Long productId);
+    List<Review> findAllByProductIdAndRatingAndIsDeletedFalseOrderByReviewedOnDesc(Long productId, Float rating);
 }
