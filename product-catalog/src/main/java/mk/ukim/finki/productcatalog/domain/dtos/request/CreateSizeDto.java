@@ -11,4 +11,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class CreateSizeDto implements Serializable {
     private String size;
+    private Integer quantity;
 }

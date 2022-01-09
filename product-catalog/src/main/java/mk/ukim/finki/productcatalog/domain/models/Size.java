@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mk.ukim.finki.productcatalog.domain.enums.SizeType;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +23,7 @@ public class Size extends BaseTimeAuditedEntity {
 
     private String size;
 
-    @Enumerated(EnumType.STRING)
-    private SizeType type;
+    private Integer quantity;
 
     @Column(name = "is_deleted")
     @ColumnDefault("false")
@@ -36,8 +33,9 @@ public class Size extends BaseTimeAuditedEntity {
     @JsonIgnore
     private List<Product> products;
 
-    public Size(String size) {
+    public Size(String size, Integer quantity) {
         this.size = size;
+        this.quantity = quantity;
         this.products = new ArrayList<>();
     }
 }

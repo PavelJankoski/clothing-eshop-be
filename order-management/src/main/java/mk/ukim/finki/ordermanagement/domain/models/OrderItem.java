@@ -1,5 +1,6 @@
 package mk.ukim.finki.ordermanagement.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public class OrderItem extends BaseTimeAuditedEntity {
 
     private Long productId;
 
-    private String size;
+    private Long sizeId;
 
     private Integer quantity;
 
@@ -30,10 +31,13 @@ public class OrderItem extends BaseTimeAuditedEntity {
     private Boolean isDeleted = false;
 
     @ManyToOne
+    @JsonIgnore
     private Order order;
 
-    public OrderItem(Long productId, Integer quantity) {
+    public OrderItem(Order order, Long productId, Long sizeId, Integer quantity) {
+        this.order = order;
         this.productId = productId;
+        this.sizeId = sizeId;
         this.quantity = quantity;
     }
 }

@@ -16,6 +16,6 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public Size insert(CreateSizeDto dto) {
-        return this.sizeRepository.save(new Size(dto.getSize()));
+        return this.sizeRepository.save(new Size(dto.getSize(), dto.getQuantity()));
     }
 }

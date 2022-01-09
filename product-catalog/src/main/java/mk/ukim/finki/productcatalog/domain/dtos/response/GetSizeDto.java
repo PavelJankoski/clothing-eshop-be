@@ -13,4 +13,6 @@ public class GetSizeDto implements Serializable {
     private Long id;
 
     private String size;
+
+    private Integer quantity;
 }
