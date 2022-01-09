@@ -5,15 +5,15 @@ import mk.ukim.finki.productcatalog.domain.dtos.request.CreateProductDto;
 import mk.ukim.finki.productcatalog.domain.dtos.request.FilterProductsDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
 import mk.ukim.finki.productcatalog.domain.exceptions.ProductNotFoundException;
+import mk.ukim.finki.productcatalog.domain.mappers.ProductToGetCartItemDtoMapper;
 import mk.ukim.finki.productcatalog.domain.mappers.ProductToGetProductDtoMapper;
 import mk.ukim.finki.productcatalog.domain.models.Brand;
 import mk.ukim.finki.productcatalog.domain.models.Category;
 import mk.ukim.finki.productcatalog.domain.models.Product;
+import mk.ukim.finki.productcatalog.domain.models.Size;
 import mk.ukim.finki.productcatalog.repository.ProductRepository;
-import mk.ukim.finki.productcatalog.service.BrandService;
-import mk.ukim.finki.productcatalog.service.CategoryService;
-import mk.ukim.finki.productcatalog.service.ImageService;
-import mk.ukim.finki.productcatalog.service.ProductService;
+import mk.ukim.finki.productcatalog.service.*;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +29,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final ProductToGetProductDtoMapper productMapper;
+    private final ProductToGetCartItemDtoMapper productToGetCartItemDtoMapper;
+    private final SizeService sizeService;
     private final BrandService brandService;
     private final ImageService imageService;
 
@@ -83,6 +85,21 @@ public class ProductServiceImpl implements ProductService {
     public GetProductDto setIsInWishlist(GetProductDto dto, Long userId) {
         if(userId<1) return dto;
         dto.setIsInWishlist(this.productRepository.isProductInWishlist(userId, dto.getId()));
+        return dto;
+    }
+
+    @Override
+    public Float findPriceForProduct(Long productId) {
+        Product product = this.findProductById(productId);
+        return product.getPrice();
+    }
+
+    @Override
+    public GetOrderItemDto getCartItem(Long productId, Long sizeId) {
+        Product product = this.findProductById(productId);
+        Size size = this.sizeService.findById(sizeId);
+        GetOrderItemDto dto = this.productToGetCartItemDtoMapper.toGetCartItem(product);
+        dto.setSelectedSize(size.getSize());
         return dto;
     }
 }

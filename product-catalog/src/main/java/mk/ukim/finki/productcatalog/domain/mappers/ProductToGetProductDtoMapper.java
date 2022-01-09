@@ -1,24 +1,11 @@
 package mk.ukim.finki.productcatalog.domain.mappers;
 
-import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
-import mk.ukim.finki.productcatalog.domain.dtos.response.GetSizeDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetSizeDto;
 import mk.ukim.finki.productcatalog.domain.models.Image;
 import mk.ukim.finki.productcatalog.domain.models.Product;
-import mk.ukim.finki.productcatalog.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.*;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +32,7 @@ public class ProductToGetProductDtoMapper {
     }
 
 
-    public List<GetProductDto> toGetProductsList(List<Product> products){
+    public List<GetProductDto> toGetProductsList(List<Product> products) {
         return products.stream().map(this::toGetProductDto).collect(Collectors.toList());
     }
 }

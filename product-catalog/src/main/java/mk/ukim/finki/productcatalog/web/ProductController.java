@@ -6,6 +6,7 @@ import mk.ukim.finki.productcatalog.domain.dtos.request.FilterProductsDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
 import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.productcatalog.service.ProductService;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +28,11 @@ public class ProductController {
         return ResponseEntity.ok(this.productService.findProductsByCategory(categoryId, Long.parseLong(userId)));
     }
 
+    @GetMapping(value = "/price/{productId}")
+    public ResponseEntity<Float> getPriceForProduct(@PathVariable Long productId){
+        return ResponseEntity.ok(this.productService.findPriceForProduct(productId));
+    }
+
     @PostMapping(value = "/filter")
     public ResponseEntity<List<GetProductDto>> getFilteredProducts(@RequestBody FilterProductsDto dto, @RequestParam(required = false, defaultValue = "0") String userId) {
         return ResponseEntity.ok(this.productService.findFilteredProducts(dto, Long.parseLong(userId)));
@@ -40,6 +46,11 @@ public class ProductController {
     @GetMapping(value = "/code/{code}")
     public ResponseEntity<GetProductDto> getProductByCode(@PathVariable String code, @RequestParam(required = false, defaultValue = "0") String userId) {
         return ResponseEntity.ok(this.productService.findProductByCode(code, Long.parseLong(userId)));
+    }
+
+    @GetMapping(value = "/to-cart-item/{productId}/{sizeId}")
+    public ResponseEntity<GetOrderItemDto> getCartItem(@PathVariable Long productId, @PathVariable Long sizeId) {
+        return ResponseEntity.ok(this.productService.getCartItem(productId, sizeId));
     }
 
     @PostMapping

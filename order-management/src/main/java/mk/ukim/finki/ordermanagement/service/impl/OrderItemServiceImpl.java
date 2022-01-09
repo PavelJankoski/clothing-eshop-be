@@ -9,12 +9,14 @@ import mk.ukim.finki.ordermanagement.repository.OrderItemRepository;
 import mk.ukim.finki.ordermanagement.service.OrderItemService;
 import mk.ukim.finki.ordermanagement.service.OrderService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
     private final OrderItemRepository orderItemRepository;
     private final OrderService orderService;
+    private final RestTemplate restTemplate;
 
     @Override
     public OrderItem addProductToOrder(AddProductToOrderDto dto) {
@@ -23,7 +25,10 @@ public class OrderItemServiceImpl implements OrderItemService {
                 .findOrderItemByOrderIdAndSizeIdAndIsDeletedFalseAndProductId(order.getId(), dto.getSizeId(), dto.getProductId())
                 .orElse(null);
         if(orderItem == null) {
-            return this.orderItemRepository.save(new OrderItem(order, dto.getProductId(), dto.getSizeId(), dto.getQuantity()));
+            Float productPrice = this.restTemplate
+                    .getForObject(String.format("http://PRODUCT-CATALOG-SERVICE/products/price/%s", dto.getProductId()),
+                            Float.class);
+            return this.orderItemRepository.save(new OrderItem(order, dto.getProductId(), productPrice, dto.getSizeId(), dto.getQuantity()));
         }
         else {
             orderItem.setQuantity(orderItem.getQuantity() + dto.getQuantity());

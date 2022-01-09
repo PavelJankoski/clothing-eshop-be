@@ -3,6 +3,7 @@ package mk.ukim.finki.productcatalog.domain.dtos.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetSizeDto;
 
 import java.io.Serializable;
 import java.util.List;

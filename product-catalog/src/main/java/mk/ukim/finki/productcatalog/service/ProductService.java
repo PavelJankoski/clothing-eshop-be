@@ -4,6 +4,7 @@ import mk.ukim.finki.productcatalog.domain.dtos.request.CreateProductDto;
 import mk.ukim.finki.productcatalog.domain.dtos.request.FilterProductsDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
 import mk.ukim.finki.productcatalog.domain.models.Product;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,6 +24,10 @@ public interface ProductService {
     GetProductDto findProductByCode(String code, Long userId);
 
     GetProductDto setIsInWishlist(GetProductDto dto, Long userId);
+
+    Float findPriceForProduct(Long productId);
+
+    GetOrderItemDto getCartItem(Long productId, Long sizeId);
 
     void uploadImagesForProduct(MultipartFile[] images, Long productId) throws IOException;
 }

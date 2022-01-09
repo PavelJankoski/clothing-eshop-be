@@ -22,6 +22,8 @@ public class OrderItem extends BaseTimeAuditedEntity {
 
     private Long productId;
 
+    private Float price;
+
     private Long sizeId;
 
     private Integer quantity;
@@ -34,7 +36,7 @@ public class OrderItem extends BaseTimeAuditedEntity {
     @JsonIgnore
     private Order order;
 
-    public OrderItem(Order order, Long productId, Long sizeId, Integer quantity) {
+    public OrderItem(Order order, Long productId, Float price, Long sizeId, Integer quantity) {
         this.order = order;
         this.productId = productId;
         this.sizeId = sizeId;

@@ -1,4 +1,4 @@
-package mk.ukim.finki.productcatalog.domain.dtos.response;
+package mk.ukim.finki.sharedkernel.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
