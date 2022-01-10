@@ -39,6 +39,7 @@ public class OrderItem extends BaseTimeAuditedEntity {
     public OrderItem(Order order, Long productId, Float price, Long sizeId, Integer quantity) {
         this.order = order;
         this.productId = productId;
+        this.price = price;
         this.sizeId = sizeId;
         this.quantity = quantity;
     }

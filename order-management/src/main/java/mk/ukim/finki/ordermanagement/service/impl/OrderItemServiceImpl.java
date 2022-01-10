@@ -19,7 +19,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     private final RestTemplate restTemplate;
 
     @Override
-    public OrderItem addProductToOrder(AddProductToOrderDto dto) {
+    public void addProductToOrder(AddProductToOrderDto dto) {
         Order order = this.orderService.findPendingOrderForUser(dto.getUserId());
         OrderItem orderItem = this.orderItemRepository
                 .findOrderItemByOrderIdAndSizeIdAndIsDeletedFalseAndProductId(order.getId(), dto.getSizeId(), dto.getProductId())
@@ -28,11 +28,11 @@ public class OrderItemServiceImpl implements OrderItemService {
             Float productPrice = this.restTemplate
                     .getForObject(String.format("http://PRODUCT-CATALOG-SERVICE/products/price/%s", dto.getProductId()),
                             Float.class);
-            return this.orderItemRepository.save(new OrderItem(order, dto.getProductId(), productPrice, dto.getSizeId(), dto.getQuantity()));
+            this.orderItemRepository.save(new OrderItem(order, dto.getProductId(), productPrice, dto.getSizeId(), dto.getQuantity()));
         }
         else {
             orderItem.setQuantity(orderItem.getQuantity() + dto.getQuantity());
-            return this.orderItemRepository.save(orderItem);
+            this.orderItemRepository.save(orderItem);
         }
     }
 

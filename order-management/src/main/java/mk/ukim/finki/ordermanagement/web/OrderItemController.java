@@ -1,5 +1,6 @@
 package mk.ukim.finki.ordermanagement.web;
 
+import com.netflix.ribbon.proxy.annotation.Http;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.ordermanagement.domain.dtos.request.AddProductToOrderDto;
 import mk.ukim.finki.ordermanagement.domain.dtos.request.RemoveProductFromOrderDto;
@@ -19,8 +20,9 @@ public class OrderItemController {
 
     @PostMapping(value = "/add-to-order")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<OrderItem> addProductToOrder(@RequestBody AddProductToOrderDto dto) {
-        return ResponseEntity.ok(this.orderItemService.addProductToOrder(dto));
+    public HttpStatus addProductToOrder(@RequestBody AddProductToOrderDto dto) {
+        this.orderItemService.addProductToOrder(dto);
+        return HttpStatus.OK;
     }
 
     @PatchMapping(value = "/remove-from-order")

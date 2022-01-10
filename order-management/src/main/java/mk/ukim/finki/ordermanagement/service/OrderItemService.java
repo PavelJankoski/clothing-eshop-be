@@ -5,7 +5,7 @@ import mk.ukim.finki.ordermanagement.domain.dtos.request.RemoveProductFromOrderD
 import mk.ukim.finki.ordermanagement.domain.models.OrderItem;
 
 public interface OrderItemService {
-    OrderItem addProductToOrder(AddProductToOrderDto dto);
+    void addProductToOrder(AddProductToOrderDto dto);
 
     void removeProductFromOrder(RemoveProductFromOrderDto dto);
 }
