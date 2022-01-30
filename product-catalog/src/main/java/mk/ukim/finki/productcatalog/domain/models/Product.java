@@ -47,8 +47,8 @@ public class Product extends BaseTimeAuditedEntity {
     @ManyToOne
     private Category category;
 
-    @ManyToMany()
-    private List<Size> sizes;
+    @OneToMany(mappedBy = "product")
+    private List<ProductSize> productSizes;
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
@@ -63,7 +63,7 @@ public class Product extends BaseTimeAuditedEntity {
         this.code = code;
         this.brand = brand;
         this.category = category;
-        this.sizes = new ArrayList<>();
         this.reviews = new ArrayList<>();
+        this.productSizes = new ArrayList<>();
     }
 }

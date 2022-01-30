@@ -8,30 +8,34 @@ import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "size")
-public class Size extends BaseTimeAuditedEntity {
+@Table(name = "products_sizes")
+public class ProductSize extends BaseTimeAuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String size;
+    @ManyToOne
+    @JsonIgnore
+    private Product product;
+
+    @ManyToOne
+    @JsonIgnore
+    private Size size;
+
+    private Integer quantity;
 
     @Column(name = "is_deleted")
     @ColumnDefault("false")
     private Boolean isDeleted = false;
 
-    @OneToMany(mappedBy = "size")
-    private List<ProductSize> productSizes;
-
-    public Size(String size) {
+    public ProductSize(Product product, Size size, Integer quantity) {
+        this.product = product;
         this.size = size;
-        this.productSizes = new ArrayList<>();
+        this.quantity = quantity;
     }
 }

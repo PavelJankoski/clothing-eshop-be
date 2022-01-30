@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 public class ProductToGetProductDtoMapper {
     public GetProductDto toGetProductDto(Product product) {
         GetProductDto dto = new GetProductDto();
-        List<GetSizeDto> sizes = product.getSizes()
+        List<GetSizeDto> sizes = product.getProductSizes()
                 .stream()
                 .filter(s -> !s.getIsDeleted() && s.getQuantity() > 0)
-                .map(s -> new GetSizeDto(s.getId(), s.getSize(), s.getQuantity())).collect(Collectors.toList());
+                .map(s -> new GetSizeDto(s.getId(), s.getSize().getSize(), s.getQuantity())).collect(Collectors.toList());
         List<String> images = product.getImages().stream().map(Image::getUrl).collect(Collectors.toList());
         dto.setId(product.getId());
         dto.setName(product.getName());
