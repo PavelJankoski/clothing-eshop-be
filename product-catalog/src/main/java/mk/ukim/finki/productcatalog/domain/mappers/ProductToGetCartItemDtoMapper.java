@@ -16,7 +16,7 @@ public class ProductToGetCartItemDtoMapper {
         List<GetSizeDto> sizes = product.getProductSizes()
                 .stream()
                 .filter(s -> !s.getIsDeleted() && s.getQuantity() > 0)
-                .map(s -> new GetSizeDto(s.getId(), s.getSize().getSize(), s.getQuantity())).collect(Collectors.toList());
+                .map(s -> new GetSizeDto(s.getSize().getId(), s.getSize().getSize(), s.getQuantity())).collect(Collectors.toList());
         List<String> images = product.getImages().stream().map(Image::getUrl).collect(Collectors.toList());
         dto.setName(product.getName());
         dto.setSizes(sizes);

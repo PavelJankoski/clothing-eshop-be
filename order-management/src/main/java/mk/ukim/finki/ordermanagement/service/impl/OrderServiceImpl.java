@@ -3,6 +3,7 @@ package mk.ukim.finki.ordermanagement.service.impl;
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.ordermanagement.domain.enums.OrderStatus;
 import mk.ukim.finki.ordermanagement.domain.models.Order;
+import mk.ukim.finki.ordermanagement.domain.models.OrderItem;
 import mk.ukim.finki.ordermanagement.repository.OrderRepository;
 import mk.ukim.finki.ordermanagement.service.OrderService;
 import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -53,5 +55,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Boolean isProductInShoppingCart(Long userId, Long productId) {
         return this.orderRepository.isProductInShoppingCart(userId, productId).getExists();
+    }
+
+    @Override
+    public Integer getItemsInBagNumber(Long userId) {
+        Order order = this.findPendingOrderForUser(userId);
+        return order.getOrderItems()
+                .stream()
+                .filter(oi -> !oi.getIsDeleted())
+                .map(OrderItem::getQuantity)
+                .reduce(0, Integer::sum);
     }
 }

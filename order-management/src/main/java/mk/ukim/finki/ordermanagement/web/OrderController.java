@@ -27,4 +27,10 @@ public class OrderController {
     public ResponseEntity<Boolean> getIsProductInShoppingCart(@PathVariable Long userId, @PathVariable Long productId) {
         return ResponseEntity.ok(this.orderService.isProductInShoppingCart(userId, productId));
     }
+
+    @GetMapping(value = "/items-in-bag/{userId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<Integer> getItemsInBagForUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(this.orderService.getItemsInBagNumber(userId));
+    }
 }

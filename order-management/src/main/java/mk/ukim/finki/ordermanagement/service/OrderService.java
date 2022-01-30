@@ -11,4 +11,6 @@ public interface OrderService {
     List<GetOrderItemDto> getOrderItems(Long userId);
 
     Boolean isProductInShoppingCart(Long userId, Long productId);
+
+    Integer getItemsInBagNumber(Long userId);
 }
