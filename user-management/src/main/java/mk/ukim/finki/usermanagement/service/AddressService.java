@@ -1,7 +1,7 @@
 package mk.ukim.finki.usermanagement.service;
 
 import mk.ukim.finki.usermanagement.domain.dtos.request.CreateEditAddressDto;
-import mk.ukim.finki.usermanagement.domain.dtos.response.GetAddressDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetAddressDto;
 import mk.ukim.finki.usermanagement.domain.models.Address;
 
 import javax.validation.constraints.NotNull;
@@ -18,8 +18,9 @@ public interface AddressService {
 
     List<GetAddressDto> getAddressesForUser(Long userId);
 
-    Long setDefaultAddress(@NotNull Long userId, @NotNull Long addressId);
+    void setDefaultAddress(@NotNull Long userId, @NotNull Long addressId);
 
     void deleteAddress(@NotNull Long addressId);
 
+    GetAddressDto getDefaultAddressForUser(@NotNull Long userId);
 }

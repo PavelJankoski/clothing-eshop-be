@@ -3,13 +3,11 @@ package mk.ukim.finki.ordermanagement.domain.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mk.ukim.finki.ordermanagement.domain.enums.PaymentType;
 import mk.ukim.finki.ordermanagement.domain.valueobjects.Address;
 import mk.ukim.finki.sharedkernel.domain.model.base.BaseTimeAuditedEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,9 +19,6 @@ public class OrderDetails extends BaseTimeAuditedEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentType paymentType;
-
     @Embedded
     private Address address;
 
@@ -33,9 +28,7 @@ public class OrderDetails extends BaseTimeAuditedEntity {
     @ColumnDefault("false")
     private Boolean isDeleted = false;
 
-    public OrderDetails(PaymentType paymentType, Address address, Float totalAmount) {
-        this.paymentType = paymentType;
+    public OrderDetails(Address address) {
         this.address = address;
-        this.totalAmount = totalAmount;
     }
 }

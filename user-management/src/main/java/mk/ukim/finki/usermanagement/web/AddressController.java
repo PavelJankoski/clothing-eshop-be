@@ -2,7 +2,7 @@ package mk.ukim.finki.usermanagement.web;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.usermanagement.domain.dtos.request.CreateEditAddressDto;
-import mk.ukim.finki.usermanagement.domain.dtos.response.GetAddressDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetAddressDto;
 import mk.ukim.finki.usermanagement.service.AddressService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,9 +41,9 @@ public class AddressController {
         return HttpStatus.OK;
     }
 
-//    @PatchMapping("/{addressId}/users/{userId}")
-//    public ResponseEntity<Long> setDefaultAddressForUser(@PathVariable Long userId,
-//                                                         @PathVariable Long addressId) {
-//        return ResponseEntity.ok(this.addressService.setDefaultAddress(userId, addressId));
-//    }
+    @GetMapping("/{userId}/default-address")
+    public ResponseEntity<GetAddressDto> getDefaultAddressForUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(this.addressService.getDefaultAddressForUser(userId));
+    }
+
 }

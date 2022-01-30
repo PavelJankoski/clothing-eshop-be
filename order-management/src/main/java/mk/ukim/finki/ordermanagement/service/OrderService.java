@@ -13,4 +13,6 @@ public interface OrderService {
     Boolean isProductInShoppingCart(Long userId, Long productId);
 
     Integer getItemsInBagNumber(Long userId);
+
+    void save(Order order);
 }

@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -65,5 +64,10 @@ public class OrderServiceImpl implements OrderService {
                 .filter(oi -> !oi.getIsDeleted())
                 .map(OrderItem::getQuantity)
                 .reduce(0, Integer::sum);
+    }
+
+    @Override
+    public void save(Order order) {
+        this.orderRepository.save(order);
     }
 }

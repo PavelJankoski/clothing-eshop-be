@@ -1,6 +1,6 @@
 package mk.ukim.finki.usermanagement.domain.mappers;
 
-import mk.ukim.finki.usermanagement.domain.dtos.response.GetAddressDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetAddressDto;
 import mk.ukim.finki.usermanagement.domain.models.Address;
 import org.springframework.stereotype.Component;
 

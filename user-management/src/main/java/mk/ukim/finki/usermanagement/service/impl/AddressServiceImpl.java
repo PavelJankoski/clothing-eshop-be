@@ -2,7 +2,7 @@ package mk.ukim.finki.usermanagement.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.usermanagement.domain.dtos.request.CreateEditAddressDto;
-import mk.ukim.finki.usermanagement.domain.dtos.response.GetAddressDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetAddressDto;
 import mk.ukim.finki.usermanagement.domain.exceptions.AddressNotFoundException;
 import mk.ukim.finki.usermanagement.domain.mappers.AddressToGetAddressDtoMapper;
 import mk.ukim.finki.usermanagement.domain.models.Address;
@@ -62,11 +62,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Long setDefaultAddress(Long userId, Long addressId) {
+    public void setDefaultAddress(Long userId, Long addressId) {
         User user = this.userService.findUserById(userId);
         Address address = this.findById(addressId);
         user.setDefaultAddress(address);
-        return this.userService.save(user).getDefaultAddress().getId();
+        this.userService.save(user);
     }
 
     @Override
@@ -75,6 +75,17 @@ public class AddressServiceImpl implements AddressService {
         address.setIsDeleted(true);
         this.userService.checkAndRemoveDefaultAddress(addressId, address.getUser().getId());
         this.addressRepository.save(address);
+    }
+
+    @Override
+    public GetAddressDto getDefaultAddressForUser(Long userId) {
+        User user = this.userService.findUserById(userId);
+        if(user.getDefaultAddress() != null) {
+            return this.addressToGetAddressDtoMapper.toGetAddressDto(
+                    user.getDefaultAddress(), user.getDefaultAddress().getId());
+
+        }
+        return null;
     }
 
     private void checkIfDefault(Boolean isDefault, Long userId, Long addressId) {
