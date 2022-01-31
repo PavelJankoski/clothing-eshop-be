@@ -1,6 +1,8 @@
 package mk.ukim.finki.ordermanagement.service.impl;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.ordermanagement.domain.dtos.response.GetOrderHistoryDto;
+import mk.ukim.finki.ordermanagement.domain.dtos.response.GetOrderHistoryItemDto;
 import mk.ukim.finki.ordermanagement.domain.enums.OrderStatus;
 import mk.ukim.finki.ordermanagement.domain.models.Order;
 import mk.ukim.finki.ordermanagement.domain.models.OrderItem;
@@ -10,6 +12,7 @@ import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +40,7 @@ public class OrderServiceImpl implements OrderService {
                 .stream()
                 .filter(oi -> !oi.getIsDeleted())
                 .forEach(oi -> {
-            GetOrderItemDto orderItemDto = this.restTemplate
-                    .getForObject(String.format("http://PRODUCT-CATALOG-SERVICE/products/to-cart-item/%s/%s", oi.getProductId(), oi.getSizeId()),
-                            GetOrderItemDto.class);
+            GetOrderItemDto orderItemDto = this.fetchProductDetails(oi.getProductId(), oi.getSizeId());
             if(orderItemDto != null) {
                 orderItemDto.setId(oi.getId());
                 orderItemDto.setPrice(oi.getPrice());
@@ -76,5 +77,35 @@ public class OrderServiceImpl implements OrderService {
         Order order = this.findPendingOrderForUser(userId);
         order.setStatus(OrderStatus.DELIVERED);
         this.orderRepository.save(order);
+    }
+
+    @Override
+    public GetOrderHistoryDto findDeliveredOrders(Long userId) {
+        GetOrderHistoryDto historyDto = new GetOrderHistoryDto();
+        List<GetOrderHistoryItemDto> historyItemDtos = new ArrayList<>();
+        List<Order> deliveredOrders = this.orderRepository.findAllByUserIdAndStatusAndIsDeletedFalse(userId, OrderStatus.DELIVERED);
+        historyDto.setTotalOrders(deliveredOrders.size());
+        deliveredOrders.forEach(o -> {
+            GetOrderHistoryItemDto itemDto = new GetOrderHistoryItemDto();
+            List<String> imageUrls = new ArrayList<>();
+            itemDto.setOrderId(o.getId());
+            itemDto.setDeliveredOn(new SimpleDateFormat("dd MMM yyyy").format(o.getModifiedOn()));
+            o.getOrderItems().forEach(oi -> {
+                GetOrderItemDto orderItemDto = this.fetchProductDetails(oi.getProductId(), oi.getSizeId());
+                if(orderItemDto != null) {
+                    imageUrls.add(orderItemDto.getImageUrl());
+                }
+            });
+            itemDto.setImageUrls(imageUrls);
+            historyItemDtos.add(itemDto);
+        });
+        historyDto.setOrderHistoryItemDtos(historyItemDtos);
+        return historyDto;
+    }
+
+    private GetOrderItemDto fetchProductDetails(Long productId, Long sizeId) {
+        return this.restTemplate
+                .getForObject(String.format("http://PRODUCT-CATALOG-SERVICE/products/to-cart-item/%s/%s", productId, sizeId),
+                        GetOrderItemDto.class);
     }
 }

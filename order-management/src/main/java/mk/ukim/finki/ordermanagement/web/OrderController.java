@@ -1,6 +1,7 @@
 package mk.ukim.finki.ordermanagement.web;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.ordermanagement.domain.dtos.response.GetOrderHistoryDto;
 import mk.ukim.finki.ordermanagement.domain.models.Order;
 import mk.ukim.finki.ordermanagement.service.OrderService;
 import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
@@ -41,5 +42,11 @@ public class OrderController {
     public HttpStatus placeOrder(@PathVariable Long userId) {
         this.orderService.placeOrder(userId);
         return HttpStatus.OK;
+    }
+
+    @GetMapping(value = "/{userId}/order-history")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<GetOrderHistoryDto> getOrderHistory(@PathVariable Long userId) {
+        return ResponseEntity.ok(this.orderService.findDeliveredOrders(userId));
     }
 }

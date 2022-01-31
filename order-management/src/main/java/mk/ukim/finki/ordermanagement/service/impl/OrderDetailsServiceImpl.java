@@ -24,8 +24,10 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     public OrderDetails findOrCreateDetails(Long userId) {
         Order order = this.orderService.findPendingOrderForUser(userId);
-        OrderDetails orderDetails;
-        orderDetails = new OrderDetails();
+        OrderDetails orderDetails = order.getDetails();
+        if(orderDetails == null) {
+            orderDetails = new OrderDetails();
+        }
         GetAddressDto userDefaultAddress = this.restTemplate
                 .getForObject(String.format("http://USERS-API-GATEWAY/addresses/%s/default-address", userId),
                         GetAddressDto.class);
