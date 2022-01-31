@@ -10,6 +10,7 @@ import mk.ukim.finki.ordermanagement.repository.OrderDetailsRepository;
 import mk.ukim.finki.ordermanagement.service.OrderDetailsService;
 import mk.ukim.finki.ordermanagement.service.OrderService;
 import mk.ukim.finki.sharedkernel.domain.dto.response.GetAddressDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.UserInfoDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -56,6 +57,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
                     orderDetails.getAddress().getStreetNo(), orderDetails.getAddress().getCity(),
                     orderDetails.getAddress().getCountry(), orderDetails.getAddress().getPostalCode(), true);
         }
-        return new GetOrderDetailsDto(getAddressDto, orderDetails.getTotalAmount());
+        UserInfoDto userInfoDto = this.restTemplate
+                .getForObject(String.format("http://USERS-API-GATEWAY/users/%s", userId),
+                        UserInfoDto.class);
+        return new GetOrderDetailsDto(getAddressDto, userInfoDto, orderDetails.getTotalAmount());
     }
 }

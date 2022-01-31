@@ -6,7 +6,7 @@ import mk.ukim.finki.usermanagement.domain.dtos.request.TokenDto;
 import mk.ukim.finki.usermanagement.domain.dtos.request.UpdateUserRequestDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.JwtDto;
 import mk.ukim.finki.usermanagement.domain.dtos.response.UpdateUserResponseDto;
-import mk.ukim.finki.usermanagement.domain.dtos.response.UserInfoDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.UserInfoDto;
 import mk.ukim.finki.usermanagement.domain.models.User;
 import mk.ukim.finki.usermanagement.service.UserService;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package mk.ukim.finki.usermanagement.domain.mappers;
 
-import mk.ukim.finki.usermanagement.domain.dtos.response.UserInfoDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.UserInfoDto;
 import mk.ukim.finki.usermanagement.domain.models.User;
 import org.springframework.stereotype.Component;
 
