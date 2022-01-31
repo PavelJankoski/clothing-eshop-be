@@ -15,4 +15,6 @@ public interface OrderService {
     Integer getItemsInBagNumber(Long userId);
 
     void save(Order order);
+
+    void placeOrder(Long userId);
 }

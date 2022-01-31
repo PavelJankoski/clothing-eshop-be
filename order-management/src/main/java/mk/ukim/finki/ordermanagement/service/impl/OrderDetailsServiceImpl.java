@@ -44,6 +44,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         }
         orderDetails.setTotalAmount(totalPrice);
         OrderDetails orderDetailsResponse = this.orderDetailsRepository.save(orderDetails);
+        order.setDetails(orderDetailsResponse);
         this.orderService.save(order);
         return orderDetailsResponse;
     }

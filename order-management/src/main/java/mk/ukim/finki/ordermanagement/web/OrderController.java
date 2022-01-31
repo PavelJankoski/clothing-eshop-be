@@ -1,8 +1,10 @@
 package mk.ukim.finki.ordermanagement.web;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.ordermanagement.domain.models.Order;
 import mk.ukim.finki.ordermanagement.service.OrderService;
 import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,5 +34,12 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Integer> getItemsInBagForUser(@PathVariable Long userId) {
         return ResponseEntity.ok(this.orderService.getItemsInBagNumber(userId));
+    }
+
+    @PostMapping(value = "/{userId}/place-order")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public HttpStatus placeOrder(@PathVariable Long userId) {
+        this.orderService.placeOrder(userId);
+        return HttpStatus.OK;
     }
 }

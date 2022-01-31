@@ -70,4 +70,11 @@ public class OrderServiceImpl implements OrderService {
     public void save(Order order) {
         this.orderRepository.save(order);
     }
+
+    @Override
+    public void placeOrder(Long userId) {
+        Order order = this.findPendingOrderForUser(userId);
+        order.setStatus(OrderStatus.DELIVERED);
+        this.orderRepository.save(order);
+    }
 }
