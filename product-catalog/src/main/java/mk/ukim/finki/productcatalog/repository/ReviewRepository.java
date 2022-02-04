@@ -10,4 +10,5 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findAllByProductIdAndIsDeletedFalseOrderByReviewedOnDesc(Long productId);
     List<Review> findAllByProductIdAndRatingAndIsDeletedFalseOrderByReviewedOnDesc(Long productId, Float rating);
+    Boolean existsReviewByProductIdAndUserId(Long productId, Long userId);
 }

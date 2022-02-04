@@ -44,6 +44,11 @@ public class ReviewServiceImpl implements ReviewService {
         );
     }
 
+    @Override
+    public Boolean didUserReviewProduct(Long productId, Long userId) {
+        return this.reviewRepository.existsReviewByProductIdAndUserId(productId, userId);
+    }
+
     private List<GetReviewDto> getReviewsWithUserInfo(List<Review> reviews) {
         List<GetReviewDto> mappedReviews = new ArrayList<>();
         reviews.forEach(r -> {

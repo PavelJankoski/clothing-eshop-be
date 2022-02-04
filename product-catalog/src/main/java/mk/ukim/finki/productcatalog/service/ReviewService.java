@@ -10,4 +10,5 @@ public interface ReviewService {
     List<GetReviewDto> findReviewsForProduct(Long productId);
     List<GetReviewDto> findReviewsByRating(Long productId, Float rating);
     Review addReviewToProduct(CreateReviewDto dto);
+    Boolean didUserReviewProduct(Long productId, Long userId);
 }

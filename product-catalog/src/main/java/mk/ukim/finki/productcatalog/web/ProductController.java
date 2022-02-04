@@ -7,6 +7,7 @@ import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
 import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.productcatalog.service.ProductService;
 import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderProductDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,6 +52,14 @@ public class ProductController {
     @GetMapping(value = "/to-cart-item/{productId}/{sizeId}")
     public ResponseEntity<GetOrderItemDto> getCartItem(@PathVariable Long productId, @PathVariable Long sizeId) {
         return ResponseEntity.ok(this.productService.getCartItem(productId, sizeId));
+    }
+
+    @GetMapping(value = "/get-order-product/{productId}/sizes/{sizeId}/users/{userId}")
+    public ResponseEntity<GetOrderProductDto> getOrderProduct(
+            @PathVariable Long productId,
+            @PathVariable Long sizeId,
+            @PathVariable Long userId) {
+        return ResponseEntity.ok(this.productService.getOrderProduct(productId, sizeId, userId));
     }
 
     @PostMapping

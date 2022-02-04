@@ -12,8 +12,10 @@ import mk.ukim.finki.productcatalog.domain.models.Category;
 import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.productcatalog.domain.models.Size;
 import mk.ukim.finki.productcatalog.repository.ProductRepository;
+import mk.ukim.finki.productcatalog.repository.ReviewRepository;
 import mk.ukim.finki.productcatalog.service.*;
 import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderProductDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     private final SizeService sizeService;
     private final BrandService brandService;
     private final ImageService imageService;
+    private final ReviewRepository reviewRepository;
 
     @Override
     public Product insert(CreateProductDto dto) {
@@ -79,6 +82,19 @@ public class ProductServiceImpl implements ProductService {
         for(MultipartFile imagePart: images) {
             this.imageService.uploadForImage(imagePart, product);
         }
+    }
+
+    @Override
+    public GetOrderProductDto getOrderProduct(Long productId, Long sizeId, Long userId) {
+        GetOrderProductDto orderProductDto = new GetOrderProductDto();
+        Product product = this.findProductById(productId);
+        Size size = this.sizeService.findById(sizeId);
+        orderProductDto.setProductId(productId);
+        orderProductDto.setName(product.getName());
+        orderProductDto.setSize(size.getSize());
+        orderProductDto.setImageUrl(product.getImages().get(0).getUrl());
+        orderProductDto.setIsReviewed(this.reviewRepository.existsReviewByProductIdAndUserId(productId, userId));
+        return orderProductDto;
     }
 
     @Override

@@ -1,14 +1,19 @@
 package mk.ukim.finki.ordermanagement.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.ordermanagement.domain.dtos.response.GetOrderHistoryDetailsDto;
 import mk.ukim.finki.ordermanagement.domain.dtos.response.GetOrderHistoryDto;
 import mk.ukim.finki.ordermanagement.domain.dtos.response.GetOrderHistoryItemDto;
 import mk.ukim.finki.ordermanagement.domain.enums.OrderStatus;
+import mk.ukim.finki.ordermanagement.domain.exceptions.OrderNotFoundException;
 import mk.ukim.finki.ordermanagement.domain.models.Order;
 import mk.ukim.finki.ordermanagement.domain.models.OrderItem;
 import mk.ukim.finki.ordermanagement.repository.OrderRepository;
 import mk.ukim.finki.ordermanagement.service.OrderService;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetAddressDto;
 import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderProductDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,11 +21,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final RestTemplate restTemplate;
+
+    @Override
+    public Order findById(Long id) {
+        return this.orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+    }
 
     @Override
     public Order findPendingOrderForUser(Long userId) {
@@ -101,6 +111,29 @@ public class OrderServiceImpl implements OrderService {
         });
         historyDto.setOrderHistoryItemDtos(historyItemDtos);
         return historyDto;
+    }
+
+    @Override
+    public GetOrderHistoryDetailsDto findDetailsForOrder(Long orderId) {
+        GetOrderHistoryDetailsDto orderHistoryDetailsDto = new GetOrderHistoryDetailsDto();
+        Order order = this.findById(orderId);
+        orderHistoryDetailsDto.setOrderId(orderId);
+        orderHistoryDetailsDto.setAddressDto(order.getDetails().getAddress());
+        orderHistoryDetailsDto.setTotalPrice(order.getDetails().getTotalAmount());
+        orderHistoryDetailsDto.setDate(new SimpleDateFormat("dd MMM yyyy").format(order.getModifiedOn()));
+        List<GetOrderProductDto> orderProducts = new ArrayList<>();
+        order.getOrderItems().forEach(oi -> {
+            GetOrderProductDto getOrderProductDto = this.restTemplate
+                    .getForObject(String.format("http://PRODUCT-CATALOG-SERVICE/products/get-order-product/%s/sizes/%s/users/%s", oi.getProductId(), oi.getSizeId(), order.getUserId()),
+                            GetOrderProductDto.class);
+            if(getOrderProductDto != null) {
+                getOrderProductDto.setQuantity(oi.getQuantity());
+                getOrderProductDto.setPrice(oi.getPrice());
+                orderProducts.add(getOrderProductDto);
+            }
+        });
+        orderHistoryDetailsDto.setOrderProducts(orderProducts);
+        return orderHistoryDetailsDto;
     }
 
     private GetOrderItemDto fetchProductDetails(Long productId, Long sizeId) {

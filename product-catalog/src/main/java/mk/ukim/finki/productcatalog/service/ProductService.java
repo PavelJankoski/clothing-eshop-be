@@ -5,6 +5,7 @@ import mk.ukim.finki.productcatalog.domain.dtos.request.FilterProductsDto;
 import mk.ukim.finki.productcatalog.domain.dtos.response.GetProductDto;
 import mk.ukim.finki.productcatalog.domain.models.Product;
 import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderItemDto;
+import mk.ukim.finki.sharedkernel.domain.dto.response.GetOrderProductDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -30,4 +31,6 @@ public interface ProductService {
     GetOrderItemDto getCartItem(Long productId, Long sizeId);
 
     void uploadImagesForProduct(MultipartFile[] images, Long productId) throws IOException;
+
+    GetOrderProductDto getOrderProduct(Long productId, Long sizeId, Long userId);
 }
