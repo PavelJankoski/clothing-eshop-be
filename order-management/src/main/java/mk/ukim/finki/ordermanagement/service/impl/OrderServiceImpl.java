@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
     public GetOrderHistoryDto findDeliveredOrders(Long userId) {
         GetOrderHistoryDto historyDto = new GetOrderHistoryDto();
         List<GetOrderHistoryItemDto> historyItemDtos = new ArrayList<>();
-        List<Order> deliveredOrders = this.orderRepository.findAllByUserIdAndStatusAndIsDeletedFalse(userId, OrderStatus.DELIVERED);
+        List<Order> deliveredOrders = this.orderRepository.findAllByUserIdAndStatusAndIsDeletedFalseOrderByModifiedOnDesc(userId, OrderStatus.DELIVERED);
         historyDto.setTotalOrders(deliveredOrders.size());
         deliveredOrders.forEach(o -> {
             GetOrderHistoryItemDto itemDto = new GetOrderHistoryItemDto();
