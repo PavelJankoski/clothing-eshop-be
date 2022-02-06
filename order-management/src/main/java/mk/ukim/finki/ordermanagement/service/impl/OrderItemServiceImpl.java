@@ -16,6 +16,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
@@ -24,6 +26,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     private final RestTemplate restTemplate;
     private final KafkaTemplate<String, ProductSizeDto> kafkaTemplate;
 
+    @Transactional
     @Override
     public void addProductToOrder(AddProductToOrderDto dto) {
         Order order = this.orderService.findPendingOrderForUser(dto.getUserId());
@@ -43,6 +46,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         kafkaTemplate.send(KafkaTopics.CHANGE_PRODUCT_SIZE_QUANTITY, new ProductSizeDto(dto.getProductId(), dto.getSizeId(), -dto.getQuantity()));
     }
 
+    @Transactional
     @Override
     public void removeProductFromOrder(RemoveProductFromOrderDto dto) {
         OrderItem orderItem = this.findOrderItem(dto.getUserId(), dto.getSizeId(), dto.getProductId());
@@ -51,6 +55,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         kafkaTemplate.send(KafkaTopics.CHANGE_PRODUCT_SIZE_QUANTITY, new ProductSizeDto(dto.getProductId(), dto.getSizeId(), orderItem.getQuantity()));
     }
 
+    @Transactional
     @Override
     public void changeQuantity(ChangeOrderItemQuantityDto dto) {
         OrderItem orderItem = this.findOrderItem(dto.getUserId(), dto.getSizeId(), dto.getProductId());
