@@ -136,6 +136,11 @@ public class OrderServiceImpl implements OrderService {
         return orderHistoryDetailsDto;
     }
 
+    @Override
+    public List<Order> findAllPendingOrders() {
+        return this.orderRepository.findAllByIsDeletedFalseAndStatus(OrderStatus.PENDING);
+    }
+
     private GetOrderItemDto fetchProductDetails(Long productId, Long sizeId) {
         return this.restTemplate
                 .getForObject(String.format("http://PRODUCT-CATALOG-SERVICE/products/to-cart-item/%s/%s", productId, sizeId),

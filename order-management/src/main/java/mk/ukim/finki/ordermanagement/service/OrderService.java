@@ -25,4 +25,6 @@ public interface OrderService {
     GetOrderHistoryDto findDeliveredOrders(Long userId);
 
     GetOrderHistoryDetailsDto findDetailsForOrder(Long orderId);
+
+    List<Order> findAllPendingOrders();
 }

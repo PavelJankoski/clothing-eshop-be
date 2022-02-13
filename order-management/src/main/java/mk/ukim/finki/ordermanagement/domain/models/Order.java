@@ -27,7 +27,7 @@ public class Order extends BaseTimeAuditedEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
     private List<OrderItem> orderItems;
 
     @Column(name = "is_deleted")
